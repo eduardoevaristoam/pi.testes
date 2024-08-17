@@ -1,0 +1,57 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+.wrapper .right__column {
+  background-color: #CAD2C5;
+  min-width: 70vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wrapper .right__column .senha__atual {
+  color: #fff;
+  text-align: center;
+  background-color: #354f52;
+  padding: 2rem;
+  border-radius: 20px;
+  width: 50%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.wrapper .right__column .senha__atual h3 {
+  font-size: 3rem;
+}
+.wrapper .right__column .senha__atual h1 {
+  font-size: 7rem;
+}
+.wrapper .left__column {
+  background-color: #52796F;
+  min-width: 30vw;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  justify-content: center;
+  align-items: center;
+}
+.wrapper .left__column .senha {
+  color: #fff;
+  text-align: center;
+  background-color: #354f52;
+  padding: 2rem;
+  border-radius: 20px;
+  width: 300px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.wrapper .left__column .senha h3 {
+  font-size: 1.5rem;
+}
+.wrapper .left__column .senha h1 {
+  font-size: 3rem;
+}
+
+/*# sourceMappingURL=index.css.map */
