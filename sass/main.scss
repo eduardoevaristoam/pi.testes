@@ -2,7 +2,12 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    user-select: none;
 }
+
 .wrapper {
     display: flex;
     min-height: 100vh;
@@ -58,5 +63,27 @@
                 font-size: 3rem;
             }
           }
+    }
+}
+
+.controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding: 2rem;
+
+    & button {
+        padding: 1rem;
+        background-color: #52796F;
+        color: #fff;
+        border-radius: 20px;
+        border-style: none;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        font-weight: 700;
+
+        &:hover {
+            background-color: #354f52;
+        }
     }
 }
