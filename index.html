@@ -1,13 +1,43 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="stylesheet" href="/src/index.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + React + TS</title>
+</head>
+
+<body>
+
+<!--Botão que ira redirecionar para a pagina cadastrar-->
+    <a href="#" class="btnCadastrar-se">Cadastrar-se</a>
+
+    <div class="login-box">
+        <h2>Login</h2>
+        <form>
+            <div class="caixaFormulario">
+              <!--Parte do Email-->
+              <label for="email">Email</label>
+                <input type="email" placeholder="E-mail" name="email" required>
+            </div>
+            <div class="caixaFormulario">
+              <!--Parte da Senha-->
+              <label for="textoSenha">Senha</label>
+                <input type="password" placeholder="Senha" name="senha" required>
+            </div>
+            <!--Botão que ira redirecionar para a pagina esqueceu senha-->
+            <a href="#" class="btnEsqueceuSenha">Esqueceu sua senha? clique aqui!</a>
+            <!--Botão De Login-->
+            <input type="submit" value="Entrar" class="btnEntrar">
+        </form>
+    </div>
+    <a href="#" class="moon-icon">
+        <img src="moon-icon.png" alt="Lua">
+    </a>
+
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
