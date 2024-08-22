@@ -56,3 +56,20 @@
 
 /*# sourceMappingURL=index.css.map */
 
+
+
+.IconeLua{
+  background-color: #2F3E46;
+  background-image: url("/src/img/iconLua.png");
+  display: inline-block; /* Faz o link se ajustar ao tamanho da imagem */
+  position: relative; /* Necessário se você quiser adicionar conteúdo sobreposto dentro do link */
+  background-size: cover; /* Faz a imagem de fundo cobrir toda a área do link */
+  background-position: center; /* Centraliza a imagem de fundo */
+  text-decoration: none; /* Remove o sublinhado padrão do link */
+}
+
+.image-link img {
+  display: block; /* Remove qualquer espaço em branco ao redor da imagem */
+  max-width: 100%; /* Garante que a imagem não ultrapasse o tamanho do link */
+  height: auto; /* Mantém a proporção da imagem */
+}
