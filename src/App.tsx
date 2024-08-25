@@ -17,7 +17,7 @@ function geradorGuiche() {
 
 console.log(senhas);
 
-console.log(geradorSenha());
+//console.log(geradorSenha());
 export default function App() {
   return (
     <div className="wrapper">
