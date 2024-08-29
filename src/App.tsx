@@ -24,19 +24,22 @@ console.log(geradorSenha());
 export default function App() {
   //State pro array de objetos de senha
   const [senhas, setSenhas] = useState([]);
+  //State para controlar a passagem de senhas
   const [stepSenha, setStepSenha] = useState(0);
 
   //Evento para ir à última senha possível, isso é, a nova senha que for gerada
   //TODO: Checar possibilidade de refatorar essa função usando condições dentro das outras duas funções
   function handleNova() {
+    //Novo objeto literal de senha
     const novaSenha = {
       tipo: "Convencional",
       senha: geradorSenha(),
       guiche: geradorGuiche(),
     };
+    //Incluindo o objeto no array de senhas
     setSenhas((prevSenhas) => [...prevSenhas, novaSenha]);
+    //Retornando o step pra 0 pra assegurar que o último objeto de senha seja o atual
     setStepSenha(0);
-    console.log(senhas);
   }
 
   //TODO: Não deixar o setSenha chegar em números negativos! - Feito
@@ -52,18 +55,24 @@ export default function App() {
   }
   //Evento para ir à senha posterior
   function handlePrev() {
-    setStepSenha((prevStepSenha) => prevStepSenha + 1);
+    if (senhas.length > stepSenha) {
+      setStepSenha((prevStepSenha) => prevStepSenha + 1);
+    }
   }
   return (
     <>
       <div className="wrapper">
         <RightColumn>
-          <Senha senha={senhas[senhas.length - stepSenha - 1]} atual={true} />
+          <Senha
+            senha={senhas[senhas.length - stepSenha - 1]}
+            atual={true}
+            key={Date.now()}
+          />
         </RightColumn>
         <LeftColumn>
-          <Senha senha={senhas[senhas.length - stepSenha - 2]} atual={false} />
-          <Senha senha={senhas[senhas.length - stepSenha - 3]} atual={false} />
-          <Senha senha={senhas[senhas.length - stepSenha - 4]} atual={false} />
+          <Senha senha={senhas[senhas.length - stepSenha - 2]} />
+          <Senha senha={senhas[senhas.length - stepSenha - 3]} />
+          <Senha senha={senhas[senhas.length - stepSenha - 4]} />
         </LeftColumn>
       </div>
 

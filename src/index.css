@@ -27,6 +27,24 @@
   border-radius: 20px;
   width: 50%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  animation-name: bubble;
+  animation-duration: 1s;
+}
+@keyframes bubble {
+  0% {
+    background-color: #354f52;
+    transform: scale(100%);
+  }
+  50% {
+    background-color: red;
+    transform: scale(105%);
+    outline: 10px solid red;
+    outline-offset: 15px;
+  }
+  100% {
+    background-color: #354f52;
+    transform: scale(100%);
+  }
 }
 .wrapper .right__column .senha__atual h3 {
   font-size: 3rem;
