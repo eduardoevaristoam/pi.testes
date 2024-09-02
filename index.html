@@ -1,16 +1,47 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="stylesheet" href="/src/index.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + React + TS</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="login-box">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="E-mail" required>
+            
+
+
+
+
+            <div class="toggle-password">
+                <input type="password" id="password" placeholder="Senha" required>
+                <span id="" class="olho"></span>
+            </div>
+
+
+
+
+
+
+            <a href="#" class="link">Esqueceu sua senha? Clique aqui!</a>
+            <input type="submit" value="Entrar">
+        </form>
+        <a href="#" class="link">Cadastrar-se</a>
+    </div>
+</div>
+<div class="mode-toggle" id="modeToggle">
+    <img src="/src/img/iconLua.png" id="modeIcon" alt="Toggle Mode">
+</div>
+
+  <script src="/src/scriptIndex.js"></script>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>
