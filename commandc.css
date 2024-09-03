@@ -11,21 +11,37 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
+    background-color: var(--cor4);
 }
 
 header {
-    position: relative;
     background-color: var(--cor2);
-    color: white;
     padding: 10px;
-    text-align: right;
+    position: relative;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center; /* Alinha itens verticalmente no centro */
+    justify-content: space-between; /* Distribui o espaço entre itens */
+    width: 100%; /* Garante que o conteúdo ocupe toda a largura do header */
+    max-width: 1200px; /* Define a largura máxima do contêiner, ajuste conforme necessário */
+}
+
+.title {
+    flex: 1;
+    text-align: center; /* Centraliza o texto dentro do contêiner flexível */
+    margin: 0; /* Remove a margem padrão do <h1> */
+    color: var(--cor5);
 }
 
 .user-icon {
     cursor: pointer;
     display: inline-block;
     vertical-align: middle;
-    
+    margin-right: auto;
 }
 .user-icon img {
     width: 40px;

@@ -62,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="col">
                         <button class="options-btn">...</button>
                         <div class="options-menu">
+                            <button class="clear-service-btn>Desatribuir Serviço</button>
                             <button class="edit-device-btn">Editar</button>
                             <button class="delete-device-btn">Excluir</button>
                         </div>
@@ -171,7 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="col">${playlistName}</div>
                     <div class="col">${mediaDuration} segundos</div>
                     <div class="col">
-                        <button class="edit-btn">Editar</button>
+                        <button class="edit-btn">...</button>
+                        <div class="edit-menu"></div>
                     </div>
                 `;
                 document.getElementById('playlistContainer').appendChild(playlistRow);
