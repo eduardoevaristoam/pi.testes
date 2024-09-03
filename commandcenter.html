@@ -45,12 +45,37 @@
             </div>
         </div>
         
-        <!-- Modal para criar/editar playlist -->
+        <!-- Modal para criar playlist -->
         <div class="modal" id="playlistModal">
             <div class="modal-content">
                 <span class="close">&times;</span>
                 <h3>Criar Playlist</h3>
                 <form id="playlistForm">
+                    <label for="playlistName">Nome da Playlist:</label>
+                    <input type="text" id="playlistName" required>
+                    
+                    <label for="mediaDuration">Duração da Mídia (segundos):</label>
+                    <input type="number" id="mediaDuration" required>
+                    
+                    <label for="mediaItems">Mídias:</label>
+                    <div id="mediaContainer"></div>
+                    
+                    <button type="button" id="addMediaBtn">Adicionar Mídia</button>
+                    
+                    <div class="modal-buttons">
+                        <button type="button" id="savePlaylistBtn">Criar</button>
+                        <button type="button" id="cancelPlaylistBtn">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal para criar playlist -->
+        <div class="modal" id="editplaylistModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Editar Playlist</h3>
+                <form id="editplaylistForm">
                     <label for="playlistName">Nome da Playlist:</label>
                     <input type="text" id="playlistName" required>
                     
@@ -82,7 +107,7 @@
             </div>
         </div>
 
-        <!-- Modal para criar/editar dispositivo -->
+        <!-- Modal para criar Dispositivo -->
         <div class="modal" id="deviceModal">
             <div class="modal-content">
                 <span class="close-device-modal">&times;</span>
@@ -98,6 +123,34 @@
                 </form>
             </div>
         </div>
+
+        <!-- Modal para criar Dispositivo -->
+        <div id="editDeviceModal" class="modal">
+            <div class="modal-content">
+                <span class="close-edit-modal">&times;</span>
+                <h2>Editar Dispositivo</h2>
+                <form id="updateDeviceForm">
+                    <label for="editDeviceNameInput">Nome do Dispositivo:</label>
+                    <input type="text" id="editDeviceNameInput" required>
+
+                    <div class="modal-buttons">
+                        <button type="button" id="updateDeviceBtn">Atualizar</button>
+                        <button type="button" id="cancelUpdateDeviceBtn">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal generico alerta -->
+        <div id="customAlertModal" class="custom-modal">
+            <div class="custom-modal-content">
+                <span class="close-alert">&times;</span>
+                <p id="alertMessage"></p>
+                <button id="alertOkBtn">OK</button>
+            </div>
+        </div>
+        
+        
 
     </section>
 </body>
