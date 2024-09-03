@@ -104,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
     // Função para abrir/fechar modal de criação de dispositivo
     if (addDeviceBtn && deviceModal && closeDeviceModal && saveDeviceBtn && cancelDeviceBtn && deviceNameInput) {
         addDeviceBtn.addEventListener('click', () => deviceModal.style.display = 'flex');
@@ -141,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
             closeDeviceModalAction();
         });
     }
+
 
     // Modal de criação de playlist
     const addPlaylistBtn = document.getElementById('addPlaylistBtn');
@@ -181,35 +181,94 @@ document.addEventListener('DOMContentLoaded', () => {
                 attachMediaEvents(mediaItem);
             }
         });
+    }
 
-        // Salvar nova playlist
-        savePlaylistBtn.addEventListener('click', () => {
-            const playlistName = document.getElementById('playlistName').value.trim();
-            const mediaDuration = document.getElementById('mediaDuration').value.trim();
-
-            if (playlistName && mediaDuration) {
-                const playlistRow = document.createElement('div');
-                playlistRow.className = 'row';
-                playlistRow.innerHTML = `
-                    <div class="col">${playlistName}</div>
-                    <div class="col">${mediaDuration} segundos</div>
-                    <div class="col">
-                        <button class="options-btn">...</button>
-                        <div class="options-menu">
-                            <button class="clear-service-btn">Desatribuir Serviço</button>
-                            <button class="edit-playlist-btn">Editar</button>
-                            <button class="delete-playlist-btn">Excluir</button>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('playlistContainer').appendChild(playlistRow);
-                closeModal(playlistModal);
-            } else {
-                showCustomAlert('Preencha todos os campos antes de continuar!');
+    function attachPlaylistRowEvents(row) {
+        const optionsBtn = row.querySelector('.options-btn');
+        const optionsMenu = row.querySelector('.options-menu');
+        const editPlaylistBtn = row.querySelector('.edit-playlist-btn');
+        const deletePlaylistBtn = row.querySelector('.delete-playlist-btn');
+    
+        // Abrir/Fechar menu de opções
+        optionsBtn.addEventListener('click', () => {
+            optionsMenu.style.display = optionsMenu.style.display === 'block' ? 'none' : 'block';
+        });
+    
+        // Funções relacionadas à edição de playlists
+        editPlaylistBtn.addEventListener('click', () => openEditPlaylistModal(row));
+    
+        // Deletar playlist
+        deletePlaylistBtn.addEventListener('click', () => row.remove());
+    
+        // Fechar menu de opções ao clicar fora
+        document.addEventListener('click', (event) => {
+            if (!optionsBtn.contains(event.target) && !optionsMenu.contains(event.target)) {
+                optionsMenu.style.display = 'none';
             }
         });
     }
 
+    // Salvar nova playlist
+    savePlaylistBtn.addEventListener('click', () => {
+        const playlistName = document.getElementById('playlistName').value.trim();
+        const mediaDuration = document.getElementById('mediaDuration').value.trim();
+
+        if (playlistName && mediaDuration) {
+            const playlistRow = document.createElement('div');
+            playlistRow.className = 'row';
+            playlistRow.innerHTML = `
+                <div class="col">${playlistName}</div>
+                <div class="col">${mediaDuration} segundos</div>
+                <div class="col">
+                    <button class="options-btn">...</button>
+                    <div class="options-menu">
+                        <button class="attach-service-btn">Atribuir Serviço</button>
+                        <button class="edit-playlist-btn">Editar</button>
+                        <button class="delete-playlist-btn">Excluir</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('playlistContainer').appendChild(playlistRow);
+            attachPlaylistRowEvents(playlistRow);  // Anexar os eventos à nova linha de playlist
+            closeModal(playlistModal);
+        } else {
+            showCustomAlert('Preencha todos os campos antes de continuar!');
+        }
+    });
+
+
+    // Função para abrir modal de edição de playlist
+    function openEditPlaylistModal(row) {
+        const editPlaylistModal = document.getElementById('editplaylistModal');
+        const editPlaylistNameInput = document.getElementById('editPlaylistNameInput');
+        const updatePlaylistBtn = document.getElementById('updatePlaylistBtn');
+        const closeEditModal = document.querySelector('.close-edit-modal');
+        const cancelUpdatePlaylistBtn = document.querySelector('#cancelUpdatePlaylistBtn');
+
+        // Preencher o campo de entrada com o nome atual do dispositivo
+        editPlaylistNameInput.value = row.querySelector('.col').textContent.trim();
+
+        // Abrir o modal
+        editPlaylistModal.style.display = 'flex';
+
+        // Fechar o modal
+        closeEditModal.addEventListener('click', () => closeModal(editPlaylistModal));
+        cancelUpdatePlaylistBtn.addEventListener('click', () => closeModal(editPlaylistModal));
+
+        // Atualizar o nome da playlist e seus dados
+        updatePlaylistBtn.addEventListener('click', () => {
+            const newName = editPlaylistNameInput.value.trim();
+            if (newName && !NameExists(playlistContainer,newName)) {
+
+                row.querySelector('.col').textContent = newName;
+                closeModal(editPlaylistModal);
+            } else {
+                showCustomAlert('Este nome já está sendo utilizado!');
+            }
+        });
+    }
+
+    //funcao geral para exibir os alertas
     function showCustomAlert(message) {
         const modal = document.getElementById('customAlertModal');
         const alertMessage = document.getElementById('alertMessage');
