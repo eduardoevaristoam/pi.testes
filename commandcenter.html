@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <link rel="stylesheet" href="commandc.css">
+    <script defer src="commandc.js"></script>
+</head>
+<body>
+    <header>
+        <div class="user-icon" id="userIcon">
+            <img src="/src/img/UserIcon.png" alt="Ícone do Usuário">
+        </div>
+        <div class="dropdown-content" id="dropdownContent">
+            <div class="user-info">
+                <p><strong>Nome:</strong> Nome Usuário</p>
+                <p><strong>Email:</strong> nome.email.user@example.com</p>
+            </div>
+            <button id="logoutButton">Deslogar</button>
+        </div>
+    </header>
+    
+    <!-- Campo 1: Fila e Senha -->
+    <section class="slide-container">
+        <div class="slide" id="slide1">
+            <h2>Fila e Senha</h2>
+            <div class="row">
+                <a href="#funcionalidade1">Informação 1</a>
+            </div>
+        </div>
+
+        <!-- Campo 2: Playlist -->     
+        <div class="slide" id="slide2">
+            <h2>Playlist <button id="addPlaylistBtn">+ Criar</button></h2>
+            <div id="playlistContainer">
+                <div class="row">
+                    <div class="col">Nome da Playlist</div>
+                    <div class="col">Número de Mídias</div>
+                    <div class="col">Opções</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal para criar/editar playlist -->
+        <div class="modal" id="playlistModal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Criar Playlist</h3>
+                <form id="playlistForm">
+                    <label for="playlistName">Nome da Playlist:</label>
+                    <input type="text" id="playlistName" required>
+                    
+                    <label for="mediaDuration">Duração da Mídia (segundos):</label>
+                    <input type="number" id="mediaDuration" required>
+                    
+                    <label for="mediaItems">Mídias:</label>
+                    <div id="mediaContainer"></div>
+                    
+                    <button type="button" id="addMediaBtn">Adicionar Mídia</button>
+                    
+                    <div class="modal-buttons">
+                        <button type="button" id="savePlaylistBtn">Salvar</button>
+                        <button type="button" id="cancelPlaylistBtn">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Campo 3: Dispositivos -->
+        <div class="slide" id="slide3">
+            <h2>Dispositivos <button id="addDeviceBtn">+ Criar</button></h2>
+            <div id="deviceContainer">
+                <div class="row">
+                    <div class="col">Nome do Dispositivo</div>
+                    <div class="col">Serviço atribuido</div>
+                    <div class="col">Opções</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para criar/editar dispositivo -->
+        <div class="modal" id="deviceModal">
+            <div class="modal-content">
+                <span class="close-device-modal">&times;</span>
+                <h3>Criar Dispositivo</h3>
+                <form id="deviceForm">
+                    <label for="deviceNameInput">Nome do Dispositivo:</label>
+                    <input type="text" id="deviceNameInput" required>
+                    
+                    <div class="modal-buttons">
+                        <button type="button" id="saveDeviceBtn">Criar</button>
+                        <button type="button" id="cancelDeviceBtn">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </section>
+</body>
+</html>
