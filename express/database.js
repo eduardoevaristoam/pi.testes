@@ -1,9 +1,10 @@
-const { Client } = require("pg");
+const { Pool } = require("pg");
 
-const client = new Client({
+const pool = new Pool({
   ssl: {
     rejectUnauthorized: false, // Set to true for stricter security checks
   },
+  keepAlive: true,
 });
 
-module.exports = client;
+module.exports = pool;

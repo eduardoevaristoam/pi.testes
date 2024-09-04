@@ -110,3 +110,47 @@
         }
     }
 }
+
+//Totally for testing purposes!
+.selected {
+    transition: all 0.2s ease-in-out;
+    transform: scale(90%);
+    opacity: 0.5;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #52796F;
+    max-width: 80vw;
+    padding: 2rem;
+    border-radius: 20px;
+    min-height: 100vh;
+
+    & .media__visualizer {
+        background-color: #354f52;
+        padding: 1.5rem;
+        border-radius: 20px;
+        width: 60%;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        overflow-y: auto;
+        max-height: 90vh;
+        min-height: 50vh;
+        
+
+        & .media {
+            transition: all 0.2s ease-in-out;
+            margin-block: auto;
+            & img, video {
+                object-fit: cover;
+                border-radius: 20px;
+            }
+            &:hover {
+                opacity: 0.5;
+            } 
+        }
+    }
+}

@@ -8,15 +8,22 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 //Definindo sub-rota
-const route = express.Router();
+const router = express.Router();
 
-route
+router
   .route("/")
   .get(mediaController.getAllMedia)
   .post(
     upload.single("media"),
     mediaController.checkBody,
+    mediaController.checkMimeType,
+    mediaController.putNewMedia,
     mediaController.postMedia
   );
 
-module.exports = route;
+router
+  .route("/:uuid")
+  .get(mediaController.getMediaById)
+  .delete(mediaController.deleteMediaBucket, mediaController.deleteMedia);
+
+module.exports = router;
