@@ -17,6 +17,20 @@ exports.getAllMedia = async (req, res) => {
 
 //Cria uma entrada no banco de dados (caso todas os middlewares anteriores sejam favoráveis)
 exports.postMedia = async (req, res) => {
+  if (req.isText) {
+    try {
+      const uuid = crypto.randomUUID();
+      const content = req.body.text;
+      const mimetype = "text/plain";
+      const query =
+        "INSERT INTO midias (uuid, content, mimetype) VALUES ($1, $2, $3)";
+      await database.query(query, [uuid, content, mimetype]);
+      return res.status(201).json({ status: "success" });
+    } catch (error) {
+      return res.status(500).json({ status: "error", message: error.message });
+    }
+  }
+
   try {
     const uuid = req.uuid;
     const content = req.bucketURL;
@@ -34,10 +48,11 @@ exports.postMedia = async (req, res) => {
 //Obtem mídia por seu id
 exports.getMediaById = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { uuid } = req.params;
+    console.log(uuid);
     //Parametrizando query de SQL
     const sqlQuery = "select * from midias where id = $1";
-    const query = await database.query(sqlQuery, [id]);
+    const query = await database.query(sqlQuery, [uuid]);
     const data = query.rows;
     //Caso a mídia não seja encontrada
     if (!data.length) {
@@ -55,16 +70,19 @@ exports.getMediaById = async (req, res) => {
 
 //Middleware que checa se existe, de fato, um arquivo no objeto de request (usado com método POST)
 exports.checkBody = (req, res, next) => {
-  if (!req?.file) {
+  if (!req?.file && !req.body?.text) {
     return res
       .status(400)
       .json({ status: "fail", message: "Nenhuma mídia foi enviada." });
   }
+  if (req.body?.text) req.isText = true;
   next();
 };
 
 //Middleware que checa se o mimetype do arquivo enviado é aceito (usado com método POST)
 exports.checkMimeType = (req, res, next) => {
+  if (req.isText) return next();
+
   console.log(req.file);
   const acceptedMimeTypes = new Map([
     // Images
@@ -92,8 +110,9 @@ exports.checkMimeType = (req, res, next) => {
   next();
 };
 
-//Middleware que envia pro bucket
+//Middleware que envia mídias pro bucket
 exports.putNewMedia = async (req, res, next) => {
+  if (req.isText) return next();
   try {
     //Gerando identificador único
     const UUID = crypto.randomUUID();
@@ -117,6 +136,8 @@ exports.putNewMedia = async (req, res, next) => {
 //TODO: Criar middleware que tira do bucket usando UUID - Feito
 //TODO: Verificar se precisa do UUID como primary key no banco
 exports.deleteMediaBucket = async (req, res, next) => {
+  if (req.headers.istext === "true") return next();
+
   const UUID = req.params.uuid;
   try {
     //Comando pra enviar pro cliente S3

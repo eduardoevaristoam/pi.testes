@@ -7,6 +7,8 @@ export default function App() {
   return (
     <>
       <FilaSenhas />
+      <Form />
+      <MediaVisualizer />
     </>
   );
 }
