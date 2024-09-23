@@ -196,3 +196,125 @@
 }
 
 /*# sourceMappingURL=index.css.map */
+
+
+
+
+body {
+  background-color: #CAD2C5;
+  font-family: 'Montserrat', sans-serif;
+  color: #2F3E46;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  transition: background-color 0.5s, color 0.5s;
+}
+
+.container {
+  text-align: center;
+}
+
+.login-box {
+  background-color: #2F3E46;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.login-box h2 {
+  color: #CAD2C5;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.login-box input[type="email"],
+.login-box input[type="password"],
+.login-box input[type="text"]{
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #52796F;
+  background-color: #CAD2C5;
+  color: #2F3E46;
+}
+
+.login-box input[type="submit"] {
+  background-color: #52796F;
+  color: #CAD2C5;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.login-box input[type="submit"]:hover {
+  background-color: #84A98C;
+}
+
+.login-box .link {
+  display: block;
+  margin-top: 10px;
+  color: #84A98C;
+  text-decoration: none;
+}
+
+.toggle-password {
+  position: relative;
+}
+
+.toggle-password i {
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  cursor: pointer;
+}
+
+.mode-toggle {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  width: 10%;
+  background-color: #2F3E46;
+}
+
+.mode-toggle img {
+  width: 30px;
+}
+
+.light-mode {
+  background-color: #CAD2C5;
+  color: #2F3E46;
+}
+
+.dark-mode {
+  background-color: #2F3E46;
+  color: #CAD2C5;
+}
+
+.botaoTogglePasword{
+  background-image: url();
+}
+
+
+
+
+
+
+
+.olho {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.olho:: {
+  content: "\f06e"; /* Ícone de olho do Font Awesome */
+  font-family: "Font Awesome 5 Free";
+}
