@@ -54,3 +54,12 @@
   background-color: #52796F;
 }
 
+.modal-content ul{
+  list-style-type: none;
+  padding: 0;
+}
+
+.modal-content li{
+  margin-bottom: 1rem;
+}
+
