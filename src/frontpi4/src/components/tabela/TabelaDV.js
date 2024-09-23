@@ -1,3 +1,8 @@
+/* 
+falta criar o componente que traz as informações e alimenta os <tr />
+das tabelas
+*/
+
 import styles from './Tabela.css';
 import React, {useState} from 'react';
 

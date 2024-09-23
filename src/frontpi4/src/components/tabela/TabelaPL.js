@@ -1,3 +1,8 @@
+/* 
+falta criar o componente que traz as informações e alimenta os <tr />
+das tabelas
+*/
+
 import styles from './Tabela.css';
 import React, {useState} from 'react';
 
@@ -14,7 +19,23 @@ function TabelaPL(){
             </thead>
             <tbody>
               <tr>
-                <td>nome1</td>
+                <td>nomepl1</td>
+                <td></td>
+                <td></td>
+                <td>
+                  <button onClick={""}>...</button>
+                </td>
+              </tr>
+              <tr>
+                <td>nomepl2</td>
+                <td></td>
+                <td></td>
+                <td>
+                  <button onClick={""}>...</button>
+                </td>
+              </tr>
+              <tr>
+                <td>nomepl3</td>
                 <td></td>
                 <td></td>
                 <td>
