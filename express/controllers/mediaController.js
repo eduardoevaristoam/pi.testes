@@ -1,14 +1,14 @@
-const database = require("./../database");
+//const database = require("./../database");
 const client = require("../S3Client");
 const crypto = require("crypto");
 const { PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
+const { PrismaClient } = require("@prisma/client");
+const { midia } = new PrismaClient();
 
 //Obtém todas as mídias
 exports.getAllMedia = async (req, res) => {
   try {
-    const query = await database.query("select * from midias");
-    const data = query.rows;
-    console.log(data);
+    const data = await midia.findMany();
     res.status(200).json({ status: "success", data: data });
   } catch (error) {
     res.status(500).json({ status: "error", message: error.message });
@@ -19,43 +19,85 @@ exports.getAllMedia = async (req, res) => {
 exports.postMedia = async (req, res) => {
   if (req.isText) {
     try {
-      const uuid = crypto.randomUUID();
-      const content = req.body.text;
-      const mimetype = "text/plain";
-      const query =
-        "INSERT INTO midias (uuid, content, mimetype) VALUES ($1, $2, $3)";
-      await database.query(query, [uuid, content, mimetype]);
-      return res.status(201).json({ status: "success" });
+      const mediaDataObject = {
+        uuid: crypto.randomUUID(),
+        content: req.body.text,
+        mimetype: "text/plain",
+        idPlaylist: Number(req.params.id),
+      };
+      const data = await midia.create({ data: mediaDataObject });
+      return res.status(201).json({ status: "success", data: data });
     } catch (error) {
       return res.status(500).json({ status: "error", message: error.message });
     }
   }
 
   try {
-    const uuid = req.uuid;
-    const content = req.bucketURL;
-    const mimetype = req.mimetype;
-    //Parametrizando query de SQL
-    const query =
-      "INSERT INTO midias (uuid, content, mimetype) VALUES ($1, $2, $3)";
-    await database.query(query, [uuid, content, mimetype]);
-    res.status(201).json({ status: "success" });
+    //Objeto de mídia para ser incluído
+    const mediaDataObject = {
+      uuid: req.uuid,
+      content: req.bucketURL,
+      mimetype: req.mimetype,
+      idPlaylist: Number(req.params.id),
+    };
+
+    const data = await midia.create({ data: mediaDataObject });
+    res.status(201).json({ status: "success", data: data });
   } catch (error) {
     res.status(500).json({ status: "error", message: error.message });
   }
 };
 
+//Obtem mídia por playlist
+//Usada no gerenciamento das playlists, pode ser paginada com a query page=x e limit=x
+exports.getMediaByPlaylist = async (req, res) => {
+  const idPlaylist = Number(req.params?.id) || null;
+
+  //Isso provavelmente deverá estar em um middleware prévio
+  if (!idPlaylist)
+    return res
+      .status(400)
+      .json({ status: "fail", message: "Por favor, forneça um ID." });
+
+  try {
+    let data;
+
+    //Caso tenhamos uma query page na URL
+    if (req.query.page) {
+      const take = Number(req.query?.limit) || 5;
+      //const skip = req.query.page * take - take;
+      const skip = (req.query.page - 1) * take;
+      data = await midia.findMany({ where: { idPlaylist }, skip, take });
+    } else {
+      //Caso NÃO tenhamos uma query page na URL
+      data = await midia.findMany({ where: { idPlaylist } });
+    }
+
+    const count = await midia.count({ where: { idPlaylist } });
+    res.status(200).json({
+      status: "success",
+      totalResults: count,
+      resultsPerPage: Number(req.query?.limit) || req.query?.page ? "5" : "all",
+      data: data,
+    });
+  } catch (err) {
+    res.status(500).json({ status: "error", message: err.message });
+  }
+};
+
 //Obtem mídia por seu id
 exports.getMediaById = async (req, res) => {
+  const { uuid } = req.params;
+  if (!uuid)
+    return res
+      .status(400)
+      .json({ status: "fail", message: "Por favor, forneça um UUID." });
+
   try {
-    const { uuid } = req.params;
-    console.log(uuid);
     //Parametrizando query de SQL
-    const sqlQuery = "select * from midias where id = $1";
-    const query = await database.query(sqlQuery, [uuid]);
-    const data = query.rows;
+    const data = await midia.findUnique({ where: { uuid } });
     //Caso a mídia não seja encontrada
-    if (!data.length) {
+    if (!data) {
       return res.status(404).json({
         status: "fail",
         message: "Nenhuma mídia com tal ID encontrada",
@@ -133,8 +175,7 @@ exports.putNewMedia = async (req, res, next) => {
   next();
 };
 
-//TODO: Criar middleware que tira do bucket usando UUID - Feito
-//TODO: Verificar se precisa do UUID como primary key no banco
+//Deleta uma mídia no bucket antes de deletá-la no banco de dados
 exports.deleteMediaBucket = async (req, res, next) => {
   if (req.headers.istext === "true") return next();
 
@@ -153,10 +194,9 @@ exports.deleteMediaBucket = async (req, res, next) => {
 };
 
 exports.deleteMedia = async (req, res) => {
-  const UUID = req.params.uuid;
-  const query = "DELETE FROM midias WHERE uuid = $1";
+  const UUID = Number(req.params.uuid);
   try {
-    await database.query(query, [UUID]);
+    await midia.delete({ where: { UUID } });
     res.status(200).json({ status: "success", message: "Content deleted" });
   } catch (error) {
     res.status(500).json({ status: "error", message: error.message });
