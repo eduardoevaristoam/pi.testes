@@ -9,14 +9,13 @@ import OpcoesMenu from './OpcoesMenu';
 
 function TabelaDV(){
 
-  //const [menuAberto, setMenuAberto] = useState(false);//controla exibicao menu
-  //const [selectedDevice, setSelectedDevice] = useState(null);//controla qual dispositivo esta sendo manipulado
+  const [selectedDevice, setSelectedDevice] = useState(null);//controla qual dispositivo esta sendo manipulado
   const [isOptionsModalOpen, setOptionsModalOpen] = useState(false);
   const openOptionsModal = () => setOptionsModalOpen(true);
   const closeOptionsModal = () => setOptionsModalOpen(false);
 
-  const handleButtonClick = () => {
-    setOptionsModalOpen(!isOptionsModalOpen);
+  const handleButtonClick = (device) => {
+    setSelectedDevice(device === selectedDevice ? null : device);
   };
 
   const [devices, setDevices] = useState([]);
@@ -64,9 +63,8 @@ function TabelaDV(){
             <tr key={device.id}>
               <td>{device.nome}</td>
               <td>
-                <button onClick={handleButtonClick}>...</button>
-                {isOptionsModalOpen && <OpcoesMenu deviceId={device.id} deviceName={device.name} onClose={handleButtonClick} />}
-                {closeOptionsModal}
+                <button onClick={() => handleButtonClick(device.id)}>...</button>
+                {selectedDevice === device.id && ( <OpcoesMenu direction="devices" Id={device.id} name={device.name} onClose={() => setSelectedDevice(null) } />)}
               </td>
             </tr>
           ))}

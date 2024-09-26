@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import '../modal/Modal.css';
 import DeviceModal from '../modal/DeviceModal';
 
-function OpcoesMenu({ deviceId, nameDevice, onClose }) {
+function OpcoesMenu({ direction, Id, name, onClose }) {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
 
     // Funções para os botões do menu
     const handleAtribuirServico = () => {
-        alert(`Atribuir serviço ao dispositivo: ${nameDevice}`);
+        alert(`Atribuir serviço ao dispositivo: ${name}`);
     };
 
     const handleEditar = () => {
-        alert(`Editar dispositivo: ${nameDevice}`);
+        alert(`Editar dispositivo: ${name}`);
     };
 
     const handleExcluir = async (event) => {
@@ -23,7 +23,7 @@ function OpcoesMenu({ deviceId, nameDevice, onClose }) {
         setMessage(null);
 
         try {
-            const response = await fetch(`http://localhost:4000/devices/${deviceId}`, {
+            const response = await fetch(`http://localhost:4000/${direction}/${Id}`, {
                 method: 'DELETE',
             });
 

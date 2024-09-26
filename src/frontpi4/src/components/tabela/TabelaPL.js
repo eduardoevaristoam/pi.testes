@@ -4,18 +4,52 @@ das tabelas
 */
 
 import styles from './Tabela.css';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import OpcoesMenu from './OpcoesMenu';
 
 function TabelaPL(){
 
+  const [selectedPlaylist, setSelectedPlaylist] = useState(null);
   const [isOptionsModalOpen, setOptionsModalOpen] = useState(false);
   const openOptionsModal = () => setOptionsModalOpen(true);
   const closeOptionsModal = () => setOptionsModalOpen(false);
 
-  const handleButtonClick = () => {
-    setOptionsModalOpen(!isOptionsModalOpen);
+  const handleButtonClick = (playlist) => {
+    setSelectedPlaylist(playlist === selectedPlaylist ? null : playlist);
   };
+
+  const [playlists, setPlaylists] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchPlaylists = async () => {
+    try{
+      const response = await fetch('http://localhost:4000/playlists');
+      if(!response.ok){
+        throw new Error('Erro ao buscar playlist');
+      }
+      const data = await response.json();
+      setPlaylists(data.data);
+    }
+    catch(err){
+      setError(err.message);
+    }
+    finally{
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchPlaylists();
+  }, []);
+
+  if(loading){
+    return <div>Loading...</div>;
+  }
+
+  if(error){
+    return <div>Error: {error}</div>;
+  }
 
   return(
     <table className="service-table">
@@ -28,35 +62,17 @@ function TabelaPL(){
           </tr>
         </thead>
         <tbody>
-          {/*{playlist.map((playlist) => (
-            <tr key={playlist.id}>
-              <td>playlist.name</td>
-              <td>playlist.qtd</td>
-              <td>playlist.time</td>
-              <td>
-                <button onClick={handleButtonClick}>...</button>
-                {isOptionsModalOpen && <OpcoesMenu selectedPlaylist={playlist.name} onClose={handleButtonClick}/>}
-              </td>
-            </tr>
-            ))}*/}
-          <tr>
-            <td>nomepl2</td>
-            <td></td>
-            <td></td>
+         {playlists.map((playlist) => (
+          <tr key={playlist.id}>
+            <td>{playlist.nome}</td>
+            <td>{playlist._count.Midia}</td>
+            <td>{playlist.intervalo}</td>
             <td>
-              <button onClick={handleButtonClick}>...</button>
-              {isOptionsModalOpen && <OpcoesMenu selectedDevice="name" onClose={handleButtonClick}/>}
+              <button onClick={() => handleButtonClick(playlist.id)}>...</button>
+              {selectedPlaylist === playlist.id && (<OpcoesMenu direction="playlists" Id={playlist.id} name={playlist.name} onClose={() => setSelectedPlaylist(null) } />)}
             </td>
           </tr>
-          <tr>
-            <td>nomepl3</td>
-            <td></td>
-            <td></td>
-            <td>
-              <button onClick={handleButtonClick}>...</button>
-              {isOptionsModalOpen && <OpcoesMenu selectedDevice="name" onClose={handleButtonClick}/>}
-            </td>
-          </tr>
+         ))}
         </tbody>
     </table> 
   )
