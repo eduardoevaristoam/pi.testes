@@ -3,28 +3,78 @@ falta criar o componente que traz as informações e alimenta os <tr />
 das tabelas
 */
 
-import styles from './Tabela.css';
-import React, {useState} from 'react';
+import Tabela from './Tabela.css';
+import React, { useEffect, useState} from 'react';
+import OpcoesMenu from './OpcoesMenu';
 
 function TabelaDV(){
-    return(
-        <table className="service-table">
-            <thead>
-              <tr>
-                <th>Nome Dispositivo</th>
-                <th>Opções</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>nome1</td>
-                <td>
-                  <button onClick={""}>...</button>
-                </td>
-              </tr>
-            </tbody>
-        </table> 
-    )
+
+  //const [menuAberto, setMenuAberto] = useState(false);//controla exibicao menu
+  //const [selectedDevice, setSelectedDevice] = useState(null);//controla qual dispositivo esta sendo manipulado
+  const [isOptionsModalOpen, setOptionsModalOpen] = useState(false);
+  const openOptionsModal = () => setOptionsModalOpen(true);
+  const closeOptionsModal = () => setOptionsModalOpen(false);
+
+  const handleButtonClick = () => {
+    setOptionsModalOpen(!isOptionsModalOpen);
+  };
+
+  const [devices, setDevices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchDevices = async () => {
+    try {
+      const response = await fetch('http://localhost:4000/devices');
+      if (!response.ok) {
+        throw new Error('Erro ao buscar dispositivos');
+      }
+      const data = await response.json();
+      setDevices(data.data); // data.data contém os dispositivos
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDevices(); // Chama a função para buscar dispositivos ao montar o componente
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+
+  return(
+    <table className="service-table">
+        <thead>
+          <tr>
+            <th>Nome Dispositivo</th>
+            <th>Opções</th>
+          </tr>
+        </thead>
+        <tbody>
+          {devices.map((device) => (
+            <tr key={device.id}>
+              <td>{device.nome}</td>
+              <td>
+                <button onClick={handleButtonClick}>...</button>
+                {isOptionsModalOpen && <OpcoesMenu deviceId={device.id} deviceName={device.name} onClose={handleButtonClick} />}
+                {closeOptionsModal}
+              </td>
+            </tr>
+          ))}
+          
+        </tbody>
+    </table>
+    
+  );
 }
 
 export default TabelaDV

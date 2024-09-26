@@ -4,6 +4,7 @@ import './Modal.css';
 function PlaylistModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
+
   return (
     <div className="modal">
       <div className="modal-content">
@@ -11,11 +12,11 @@ function PlaylistModal({ isOpen, onClose }) {
         <form>
           <label>
             Nome da Playlist:
-            <input type="text" name="playlistName" />
+            <input type="text" />
           </label>
           <label>
             Tempo de exibição (segundos):
-            <input type="number" name="playlistDuration" />
+            <input type="number" min="1" step="1"  />
           </label>
           <label>
             Adicionar mídia:

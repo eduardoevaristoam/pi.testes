@@ -1,6 +1,6 @@
 //Configurando variáveis de enviroment
 const dotenv = require("dotenv");
-dotenv.config({ path: "./config.env" });
+dotenv.config();
 
 //Importando middlewares, etc do Express
 const app = require("./app");

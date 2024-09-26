@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import Header from './components/header/Header';
 import Section from './components/section/Section';
@@ -10,7 +10,9 @@ import TabelaFS from './components/tabela/TabelaFS';
 import TabelaPL from './components/tabela/TabelaPL';
 import TabelaDV from './components/tabela/TabelaDV';
 
+
 function App() {
+
 
   const [isPlaylistModalOpen, setPlaylistModalOpen] = useState(false);
   const [isDeviceModalOpen, setDeviceModalOpen] = useState(false);
