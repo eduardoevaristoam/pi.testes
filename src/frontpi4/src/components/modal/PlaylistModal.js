@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from './Modal.css';
+import './Modal.css';
 
 function PlaylistModal({ isOpen, onClose }) {
 
@@ -12,8 +12,22 @@ function PlaylistModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const handleFileChange = (event) => {
-    setMediaFiles(event.target.files);
+    const selectedFiles = Array.from(event.target.files).map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+    setMediaFiles(selectedFiles);
   }
+
+  function verInput (playlistName, playlistIntervalo) {
+    if(playlistName ==='' || playlistIntervalo === ''){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();// evita regarregamento da pag
@@ -22,31 +36,44 @@ function PlaylistModal({ isOpen, onClose }) {
     setError(null);
 
     try{
-
-      const formData = new FormData();
-      formData.append('nome', playlistName);
-      formData.append('intervalo', playlistIntervalo);
-
-      for(let i = 0; i < mediaFiles.length; i++){
-        formData.append('playlistMedia', mediaFiles[i]);
-      }
-
       const response = await fetch('http://localhost:4000/playlists', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nome: playlistName, intervalo: playlistIntervalo})
       });
-
+     
       const data = await response.json();
       if(response.ok){
         console.log('Playlist cadastrado com sucesso', data);
-        setPlaylistName('');
-        setPlaylistIntervalo('');
-        setMediaFiles([]);
-        onClose();
-        //window.location.reload(); testar e verificar aqui!
+
+        const formData = new FormData();
+        mediaFiles.forEach((media) => {
+          formData.append("media", media.file);
+        });
+
+        const mediaResponse = await fetch(`http://127.0.0.1:4000/playlists/${data.id}/media`, {
+          method: "POST",
+          body: formData,
+        });
+
+        const mediaData = await mediaResponse.json();
+        if (mediaResponse.ok) {
+          console.log('pl + midia cadastrado com sucesso:', mediaData);
+          setPlaylistName('');
+          setPlaylistIntervalo('');
+          setMediaFiles([]);
+          URL.revokeObjectURL();
+          onClose();
+          window.location.reload(); //mudar para algo que só atualize os cadastrados
+        }
+        else{
+          console.error('Erro ao cadastrar pl + midias:', mediaData.message);
+        }
       }
       else{
-        console.error('Erro ao cadastrar playlist:', data.message);
+        console.log("erro ao cadastrar a playlist");
       }
     }
     catch(error){
@@ -55,8 +82,8 @@ function PlaylistModal({ isOpen, onClose }) {
     finally{
       setLoading(false);
     }
-
   };
+
 
   return (
     <div className="modal">
@@ -87,12 +114,32 @@ function PlaylistModal({ isOpen, onClose }) {
           <label>
             Adicionar mídia:
             <input 
+              disabled={verInput(playlistName,playlistIntervalo)}
               type="file" 
               name="playlistMedia" 
               multiple
               onChange={handleFileChange}//captura os arquivos ao serem selecionados 
             />
           </label>
+          {/* exibindo as minituras das midias */}
+          {mediaFiles.length > 0 && (
+            <div className="media-preview-container">
+              <h4>Mídias selecionadas:</h4>
+              <div className="media-thumbnails">
+                {mediaFiles.map((media, index) => (
+                  <div key={index} className="media-item">
+                    {media.file.type.startsWith('image') ? (
+                      <img src={media.preview} alt={media.file.name} className="thumbnail" />
+                    ) : media.file.type.startsWith('video') ? (
+                      <video src={media.preview} controls className="thumbnail" />
+                    ) : (
+                      <p>Arquivo nao suportado : {media.file.name}</p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )} 
           <div className="modal-buttons">
             <button type="button" onClick={onClose}>Cancelar</button>
             <button type="submit" disabled={loading}>{loading ? 'Criando...' : 'Criar'}</button>
