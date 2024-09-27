@@ -30,21 +30,31 @@ function PlaylistModal({ isOpen, onClose }) {
 
 
   const handleSubmit = async (event) => {
+    console.log('DISGRAÇA1');
+
     event.preventDefault();// evita regarregamento da pag
-    
+    console.log('DISGRAÇA2');
+
     setLoading(true);
+    console.log('DISGRAÇA3');
     setError(null);
+    console.log('DISGRAÇA4');
 
     try{
+      console.log('DISGRAÇA5');
       const response = await fetch('http://localhost:4000/playlists', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nome: playlistName, intervalo: playlistIntervalo})
+        body: JSON.stringify({ nome: playlistName, intervalo: parseInt(playlistIntervalo,10)})
       });
-     
+      console.log('DISGRAÇA6');
+
       const data = await response.json();
+      console.log('DISGRAÇA7');
+      //atualmente funciona até aqui, cria a playlist mas nao vincula as midias
+
       if(response.ok){
         console.log('Playlist cadastrado com sucesso', data);
 
@@ -53,7 +63,7 @@ function PlaylistModal({ isOpen, onClose }) {
           formData.append("media", media.file);
         });
 
-        const mediaResponse = await fetch(`http://127.0.0.1:4000/playlists/${data.id}/media`, {
+        const mediaResponse = await fetch(`http://localhost:4000/playlists/${data.data.id}/media`, {
           method: "POST",
           body: formData,
         });
@@ -64,7 +74,9 @@ function PlaylistModal({ isOpen, onClose }) {
           setPlaylistName('');
           setPlaylistIntervalo('');
           setMediaFiles([]);
-          URL.revokeObjectURL();
+          mediaFiles.ForEach((media) => {
+            URL.revokeObjectURL(media.preview);
+          });
           onClose();
           window.location.reload(); //mudar para algo que só atualize os cadastrados
         }
