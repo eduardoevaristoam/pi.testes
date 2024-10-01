@@ -28,20 +28,42 @@ function PlaylistModal({ isOpen, onClose }) {
     }
   }
 
+  //funcao busca todas as playlist e analisa todas se existe o nome, retorna true ou false
+  const checkPlaylistNameExist = async (playlistName) => {
+    try{
+      const response = await fetch(`http://localhost:4000/playlists`);
+      const data = await response.json();
+      for(let i = 0; i < data.data.length; i++){
+        if(data.data[i].nome === playlistName){
+          return true;
+        }
+      }
+    }
+    catch (error){
+      console.error('Erro ao verificar nome da playlist:', error);
+      return false;
+    }
+  };
 
   const handleSubmit = async (event) => {
-    console.log('DISGRAÇA1');
 
     event.preventDefault();// evita regarregamento da pag
-    console.log('DISGRAÇA2');
 
     setLoading(true);
-    console.log('DISGRAÇA3');
     setError(null);
-    console.log('DISGRAÇA4');
+
+    //funcao abaixo checa se ja existe a playlist atual a ser cadastrada
+    //com o bd, se nome atual ja estiver cadastrado, o cadastro trava!
+    //corrigir isso no futuro, mas por hora está funcional
+    const nameExists = await checkPlaylistNameExist(playlistName);
+    if(nameExists){
+      alert('playlist ja cadastrada com este nome.');
+      setLoading(false);
+      setPlaylistName('');
+      return;
+    }
 
     try{
-      console.log('DISGRAÇA5');
       const response = await fetch('http://localhost:4000/playlists', {
         method: 'POST',
         headers: {
@@ -49,40 +71,39 @@ function PlaylistModal({ isOpen, onClose }) {
         },
         body: JSON.stringify({ nome: playlistName, intervalo: parseInt(playlistIntervalo,10)})
       });
-      console.log('DISGRAÇA6');
 
       const data = await response.json();
-      console.log('DISGRAÇA7');
       //atualmente funciona até aqui, cria a playlist mas nao vincula as midias
 
       if(response.ok){
         console.log('Playlist cadastrado com sucesso', data);
 
-        const formData = new FormData();
-        mediaFiles.forEach((media) => {
+        for (const media of mediaFiles){
+          const formData = new FormData();
           formData.append("media", media.file);
-        });
-
-        const mediaResponse = await fetch(`http://localhost:4000/playlists/${data.data.id}/media`, {
-          method: "POST",
-          body: formData,
-        });
-
-        const mediaData = await mediaResponse.json();
-        if (mediaResponse.ok) {
-          console.log('pl + midia cadastrado com sucesso:', mediaData);
-          setPlaylistName('');
-          setPlaylistIntervalo('');
-          setMediaFiles([]);
-          mediaFiles.ForEach((media) => {
-            URL.revokeObjectURL(media.preview);
+          
+          const mediaResponse = await fetch(`http://localhost:4000/playlists/${data.data.id}/media`, {
+            method: "POST",
+            body: formData,
           });
-          onClose();
-          window.location.reload(); //mudar para algo que só atualize os cadastrados
+
+          const mediaData = await mediaResponse.json();
+          if(mediaResponse.ok){
+            console.log('midia cadastrada com sucesso:', mediaData);
+          }
+          else{
+            console.error('erro ao cadastrar midia', mediaData.message);
+            break
+          }
         }
-        else{
-          console.error('Erro ao cadastrar pl + midias:', mediaData.message);
-        }
+        setPlaylistName('');
+        setPlaylistIntervalo('');
+        setMediaFiles([]);
+        mediaFiles.forEach((media) => {
+          URL.revokeObjectURL(media.preview);
+        });
+        onClose();
+        window.location.reload();
       }
       else{
         console.log("erro ao cadastrar a playlist");

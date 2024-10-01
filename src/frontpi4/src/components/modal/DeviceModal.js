@@ -8,12 +8,36 @@ function DeviceModal({ isOpen, onClose }) {
   const [error, setError] = useState(null);
 
   if (!isOpen) return null;
+
+  const checkDeviceNameExist = async (deviceName) => {
+    try{
+      const response = await fetch(`http://localhost:4000/devices`);
+      const data = await response.json();
+      for(let i = 0; i < data.data.length; i++){
+        if(data.data[i].nome === deviceName){
+          return true;
+        }
+      }
+    }
+    catch (error){
+      console.error('Erro ao verificar nome do dispositivo:', error);
+      return false;
+    }
+  };
   
   const handleSubmit = async (event) => {
     event.preventDefault(); // Evita que a página seja recarregada
 
     setLoading(true);
     setError(null);
+
+    const nameExists = await checkDeviceNameExist(deviceName);
+    if(nameExists){
+      alert('dispositivo ja cadastrada com este nome.');
+      setLoading(false);
+      setDeviceName('');
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:4000/devices', {

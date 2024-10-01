@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../modal/Modal.css';
-import DeviceModal from '../modal/DeviceModal';
+import ServiceOptions from '../serviceoptions/ServiceOptions';
 
 function OpcoesMenu({ direction, Id, name, onClose }) {
     const [loading, setLoading] = useState(false);
@@ -9,11 +9,13 @@ function OpcoesMenu({ direction, Id, name, onClose }) {
 
     // Funções para os botões do menu
     const handleAtribuirServico = () => {
-        alert(`Atribuir serviço ao dispositivo: ${name}`);
+        //alert(`Atribuir serviço ao dispositivo: ${name}`);
+        <ServiceOptions />;
     };
 
     const handleEditar = () => {
         alert(`Editar dispositivo: ${name}`);
+
     };
 
     const handleExcluir = async (event) => {
