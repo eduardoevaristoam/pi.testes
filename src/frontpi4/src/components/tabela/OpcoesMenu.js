@@ -1,20 +1,36 @@
 import React, { useState } from 'react';
 import '../modal/Modal.css';
 import ServiceOptions from '../serviceoptions/ServiceOptions';
+import EditModalDV from '../modal/EditModalDV';
 
-function OpcoesMenu({ direction, Id, name, onClose }) {
+function OpcoesMenu({ direction, data, Id, name, onClose }) {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
+    const [showServiceOptions, setshowServiceOptions] = useState(false);
+
+    const [openModal, setOpenModal] = useState(null);
+
+    const openModalHandler = (type) => setOpenModal(type);
+    const closeModalHandler = () => setOpenModal(null);
+
+
+    const handleCheckBoxChange = () => {
+        alert(`dispositivo ${data.data.Id} teve check box alterada`);
+    }
 
     // Funções para os botões do menu
     const handleAtribuirServico = () => {
         //alert(`Atribuir serviço ao dispositivo: ${name}`);
-        <ServiceOptions />;
+        onClose();
+        openModalHandler('editmodaldv');
+ 
     };
 
     const handleEditar = () => {
-        alert(`Editar dispositivo: ${name}`);
+        //alert(`Editar dispositivo: ${name}`);
+        //onClose();
+        openModalHandler('editmodaldv');
 
     };
 
@@ -58,6 +74,7 @@ function OpcoesMenu({ direction, Id, name, onClose }) {
                 {message && <div style={{ color: 'green' }}>{message}</div>}
                 {error && <div style={{ color: 'red' }}>{error}</div>}
             </div>
+            {openModal === 'editmodaldv' && <EditModalDV Id={Id} isOpen={true} onClose={closeModalHandler} />}
         </div>
     );
 }

@@ -64,7 +64,7 @@ function TabelaDV(){
               <td>{device.nome}</td>
               <td>
                 <button onClick={() => handleButtonClick(device.id)}>...</button>
-                {selectedDevice === device.id && ( <OpcoesMenu direction="devices" Id={device.id} name={device.name} onClose={() => setSelectedDevice(null) } />)}
+                {selectedDevice === device.id && ( <OpcoesMenu direction="devices" data={devices} Id={device.id} name={device.name} onClose={() => setSelectedDevice(null) } />)}
               </td>
             </tr>
           ))}

@@ -59,7 +59,6 @@ function PlaylistModal({ isOpen, onClose }) {
     if(nameExists){
       alert('playlist ja cadastrada com este nome.');
       setLoading(false);
-      setPlaylistName('');
       return;
     }
 

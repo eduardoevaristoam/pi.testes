@@ -9,20 +9,15 @@ import ServiceOptions from './components/serviceoptions/ServiceOptions';
 import TabelaFS from './components/tabela/TabelaFS';
 import TabelaPL from './components/tabela/TabelaPL';
 import TabelaDV from './components/tabela/TabelaDV';
+import EditModalDV from './components/modal/EditModalDV';
 
 
 function App() {
 
+  const [openModal, setOpenModal] = useState(null);
 
-  const [isPlaylistModalOpen, setPlaylistModalOpen] = useState(false);
-  const [isDeviceModalOpen, setDeviceModalOpen] = useState(false);
-
-  const openPlaylistModal = () => setPlaylistModalOpen(true);
-  const closePlaylistModal = () => setPlaylistModalOpen(false);
-
-  const openDeviceModal = () => setDeviceModalOpen(true);
-  const closeDeviceModal = () => setDeviceModalOpen(false);
-
+  const openModalHandler = (type) => setOpenModal(type);
+  const closeModalHandler = () => setOpenModal(null);
 
   return (
     <div className="central-de-comando">
@@ -34,16 +29,16 @@ function App() {
           <TabelaFS title1="Descrição do Serviço" title2="Opções" children1="Serviço Fila e Senha" children2="..."/>
         </Section>
 
-        <Section title="Playlists" buttonLabel="+ Criar" onButtonClick={openPlaylistModal}>
+        <Section title="Playlists" buttonLabel="+ Criar" onButtonClick={() => openModalHandler('playlist')}>
           {<TabelaPL />/*implementação futura, paginacao 5 linhas + puxar conteúdo*/}
         </Section>
 
-        <Section title="Dispositivos" buttonLabel="+ Criar" onButtonClick={openDeviceModal}>
+        <Section title="Dispositivos" buttonLabel="+ Criar" onButtonClick={() => openModalHandler('device')}>
           {<TabelaDV />/*implementacao futura, paginacao 5 linhas + puxar conteúdo db */}
         </Section>
       </main>
-      <PlaylistModal isOpen={isPlaylistModalOpen} onClose={closePlaylistModal} />
-      <DeviceModal isOpen={isDeviceModalOpen} onClose={closeDeviceModal} />
+      {openModal === 'playlist' && <PlaylistModal isOpen={true} onClose={closeModalHandler} />}
+      {openModal === 'device' && <DeviceModal isOpen={true} onClose={closeModalHandler} />}
       
     </div>
   );
