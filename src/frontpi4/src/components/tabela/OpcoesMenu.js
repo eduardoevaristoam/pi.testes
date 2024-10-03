@@ -2,29 +2,30 @@ import React, { useState } from 'react';
 import '../modal/Modal.css';
 import ServiceOptions from '../serviceoptions/ServiceOptions';
 import EditModalDV from '../modal/EditModalDV';
-import EditModalPL2 from '../modal/EditModalPL2';
+import EditModalPL from '../modal/EditModalPL';
+import AtribuirDV from '../modal/AtribuirDV';
+import AtribuirPL from '../modal/AtribuirPL';
 
 function OpcoesMenu({ direction, data, Id, name, onClose }) {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
-    const [showServiceOptions, setshowServiceOptions] = useState(false);
 
     const [openModal, setOpenModal] = useState(null);
-
     const openModalHandler = (type) => setOpenModal(type);
     const closeModalHandler = () => setOpenModal(null);
-
-
-    const handleCheckBoxChange = () => {
-        alert(`dispositivo ${data.data.Id} teve check box alterada`);
-    }
 
     // Funções para os botões do menu
     const handleAtribuirServico = () => {
         //alert(`Atribuir serviço ao dispositivo: ${name}`);
         //onClose();
         //openModalHandler('editmodaldv');
+        if(direction == "devices"){
+            openModalHandler('atribuirpl');
+        }
+        if(direction == "playlists"){
+            openModalHandler('atribuirpl');
+        }
  
     };
 
@@ -70,7 +71,9 @@ function OpcoesMenu({ direction, data, Id, name, onClose }) {
         <div className="modal">
             <div className="modal-content">
                 <div className="modal-buttons">
-                    <button type="button" onClick={handleAtribuirServico}>Atribuir Serviço</button>
+                    {direction !== "devices" && (
+                        <button type="button" onClick={handleAtribuirServico}>Atribuir Serviço</button>
+                    )}
                     <button type="button" onClick={handleEditar}>Editar</button>
                     <button type="button" onClick={handleExcluir} disabled={loading}>
                         {loading ? 'Excluindo...' : 'Excluir'}
@@ -81,7 +84,9 @@ function OpcoesMenu({ direction, data, Id, name, onClose }) {
                 {error && <div style={{ color: 'red' }}>{error}</div>}
             </div>
             {openModal === 'editmodaldv' && <EditModalDV Id={Id} isOpen={true} onClose={closeModalHandler} />}
-            {openModal === 'editmodalpl' && <EditModalPL2 Id={Id} isOpen={true} onClose={closeModalHandler} />}
+            {openModal === 'editmodalpl' && <EditModalPL Id={Id} isOpen={true} onClose={closeModalHandler} />}
+            {openModal === 'atribuirdv' && <AtribuirDV Id={Id} isOpen={true} onClose={closeModalHandler} />}
+            {openModal === 'atribuirpl' && <AtribuirPL Id={Id} isOpen={true} onClose={closeModalHandler} />}
         </div>
     );
 }

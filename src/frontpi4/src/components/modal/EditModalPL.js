@@ -93,7 +93,7 @@ function EditModalPL({ Id, isOpen, onClose }) {
       });
 
       const response = await fetch(`http://localhost:4000/playlists/${Id}/media`, {
-        method: 'PATCH',
+        method: 'POST',
         body: formData,
       });
 
