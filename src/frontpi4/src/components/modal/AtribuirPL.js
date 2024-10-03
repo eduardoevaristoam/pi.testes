@@ -126,8 +126,10 @@ function AtribuirPL({ Id, isOpen, onClose }) {
             ))}
           </tbody>
         </table>
-        <button type="button" onClick={onClose}>Cancelar</button>
-        <button type="button" onClick={handleSubmit}>Concluir</button>
+        <div className="modal-buttons" style={{ marginTop: '15px' }}>
+            <button type="button" onClick={onClose}>Cancelar</button>
+            <button type="button" onClick={handleSubmit}>Concluir</button>
+        </div>
       </div>
     </div>
   );
