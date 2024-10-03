@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../modal/Modal.css';
 import ServiceOptions from '../serviceoptions/ServiceOptions';
 import EditModalDV from '../modal/EditModalDV';
+import EditModalPL2 from '../modal/EditModalPL2';
 
 function OpcoesMenu({ direction, data, Id, name, onClose }) {
     const [loading, setLoading] = useState(false);
@@ -22,15 +23,20 @@ function OpcoesMenu({ direction, data, Id, name, onClose }) {
     // Funções para os botões do menu
     const handleAtribuirServico = () => {
         //alert(`Atribuir serviço ao dispositivo: ${name}`);
-        onClose();
-        openModalHandler('editmodaldv');
+        //onClose();
+        //openModalHandler('editmodaldv');
  
     };
 
     const handleEditar = () => {
         //alert(`Editar dispositivo: ${name}`);
         //onClose();
-        openModalHandler('editmodaldv');
+        if(direction == "devices"){
+            openModalHandler('editmodaldv');
+        }
+        if(direction == "playlists"){
+            openModalHandler('editmodalpl');
+        }
 
     };
 
@@ -46,7 +52,7 @@ function OpcoesMenu({ direction, data, Id, name, onClose }) {
             });
 
             if (!response.ok) {
-                throw new Error('Erro ao excluir dispositivo');
+                throw new Error(`Erro ao excluir ${direction}`);
             }
 
             const data = await response.json();
@@ -75,6 +81,7 @@ function OpcoesMenu({ direction, data, Id, name, onClose }) {
                 {error && <div style={{ color: 'red' }}>{error}</div>}
             </div>
             {openModal === 'editmodaldv' && <EditModalDV Id={Id} isOpen={true} onClose={closeModalHandler} />}
+            {openModal === 'editmodalpl' && <EditModalPL2 Id={Id} isOpen={true} onClose={closeModalHandler} />}
         </div>
     );
 }
