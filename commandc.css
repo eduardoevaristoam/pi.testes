@@ -1,0 +1,339 @@
+
+/*definindo as cores do projeto*/
+:root{
+    --cor1 : #CAD2C5;
+    --cor2 : #84A98C;
+    --cor3 : #52796F;
+    --cor4 : #354F52;
+    --cor5 : #2F3E46;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--cor4);
+}
+
+header {
+    background-color: var(--cor2);
+    padding: 10px;
+    position: relative;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center; /* Alinha itens verticalmente no centro */
+    justify-content: space-between; /* Distribui o espaço entre itens */
+    width: 100%; /* Garante que o conteúdo ocupe toda a largura do header */
+    max-width: 1200px; /* Define a largura máxima do contêiner, ajuste conforme necessário */
+}
+
+.title {
+    flex: 1;
+    text-align: center; /* Centraliza o texto dentro do contêiner flexível */
+    margin: 0; /* Remove a margem padrão do <h1> */
+    color: var(--cor5);
+}
+
+.user-icon {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: auto;
+}
+.user-icon img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: white;
+    color: black;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    padding: 12px;
+    border-radius: 4px;
+    min-width: 200px;
+    z-index: 1;
+}
+
+.user-info {
+    margin-bottom: 10px;
+}
+
+button#logoutButton {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button#logoutButton:hover {
+    background-color: #d32f2f;
+}
+
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.slide-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.slide {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.row a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.col {
+    flex: 1;
+    text-align: center;
+}
+
+button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#addDeviceBtn {
+    background-color: #007bff;
+    color: white;
+}
+
+#addDeviceBtn:hover {
+    background-color: #0056b3;
+}
+
+.edit-btn, .edit-device-btn, .delete-device-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.edit-btn:hover, .edit-device-btn:hover, .delete-device-btn:hover {
+    background-color: #0056b3;
+}
+
+.options-btn {
+    background-color: #007bff;
+    color: white;
+    position: relative;
+}
+
+.options-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.options-menu button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.options-menu button:hover {
+    background-color: #f4f4f4;
+}
+
+
+/* add funcionalidade botao de criar playlist*/
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.slide-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.slide {
+    background-color: var(--cor1);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#addPlaylistBtn {
+    background-color: #007bff;
+    color: white;
+}
+
+#addPlaylistBtn:hover {
+    background-color: #0056b3;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%;
+    max-width: 500px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#mediaContainer .media-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+#mediaContainer .media-item:hover {
+    background-color: #f9f9f9;
+}
+
+#mediaContainer .media-item .delete-media-btn {
+    color: #f44336;
+    cursor: pointer;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    background-color: #007bff;
+    color: white;
+}
+
+#cancelPlaylistBtn, #cancelDeviceBtn, #cancelUpdateDeviceBtn {
+    background-color: #f44336;
+}
+
+#cancelPlaylistBtn, #cancelDeviceBtn, #cancelUpdateDeviceBtn:hover {
+    background-color: #d32f2f;
+} 
+
+.custom-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.custom-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.close-alert {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-alert:hover,
+.close-alert:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#alertOkBtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+#alertOkBtn:hover {
+    background-color: #45a049;
+}

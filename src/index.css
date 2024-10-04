@@ -2,6 +2,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 .wrapper {
@@ -23,6 +26,24 @@
   border-radius: 20px;
   width: 50%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  animation-name: bubble;
+  animation-duration: 1s;
+}
+@keyframes bubble {
+  0% {
+    background-color: #354f52;
+    transform: scale(100%);
+  }
+  50% {
+    background-color: red;
+    transform: scale(105%);
+    outline: 10px solid red;
+    outline-offset: 15px;
+  }
+  100% {
+    background-color: #354f52;
+    transform: scale(100%);
+  }
 }
 .wrapper .right__column .senha__atual h3 {
   font-size: 3rem;
@@ -52,6 +73,126 @@
 }
 .wrapper .left__column .senha h1 {
   font-size: 3rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 2rem;
+}
+.controls button {
+  padding: 1rem;
+  background-color: #52796F;
+  color: #fff;
+  border-radius: 20px;
+  border-style: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: 700;
+}
+.controls button:hover {
+  background-color: #354f52;
+}
+
+.selected {
+  transition: all 0.2s ease-in-out;
+  transform: scale(90%);
+  opacity: 0.5;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #52796F;
+  max-width: 80vw;
+  padding: 2rem;
+  border-radius: 20px;
+  min-height: 100vh;
+  gap: 1rem;
+}
+.container button {
+  padding: 1rem;
+  background-color: #354f52;
+  color: #fff;
+  border-radius: 20px;
+  border-style: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: 700;
+}
+.container button:hover {
+  background-color: #3e5c54;
+}
+.container .media__visualizer {
+  background-color: #354f52;
+  padding: 1.5rem;
+  border-radius: 20px;
+  width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+  overflow-y: auto;
+  max-height: 90vh;
+  min-height: 50vh;
+}
+.container .media__visualizer .media {
+  transition: all 0.2s ease-in-out;
+  margin-block: auto;
+}
+.container .media__visualizer .media img, .container .media__visualizer .media video {
+  object-fit: cover;
+  border-radius: 20px;
+}
+.container .media__visualizer .media:hover {
+  opacity: 0.5;
+}
+
+.media-form {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+.media-form .files-input {
+  display: none;
+}
+.media-form button, .media-form input {
+  padding: 1rem;
+  background-color: #52796F;
+  color: #fff;
+  border-radius: 20px;
+  border-style: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: 700;
+}
+.media-form button:hover, .media-form input:hover {
+  background-color: #354f52;
+}
+
+.text__input__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+.text__input__container .text__input {
+  border-radius: 20px;
+  border-style: none;
+  background-color: #52796F;
+  padding: 1rem;
+  transition: all 0.2s ease-in-out;
+  color: #fff;
+  font-weight: 700;
+}
+.text__input__container .text__input:hover {
+  background-color: #354f52;
 }
 
 /*# sourceMappingURL=index.css.map */
