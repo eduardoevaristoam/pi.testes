@@ -7,6 +7,7 @@ function AtribuirPL({ Id, isOpen, onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedDevices, setSelectedDevices] = useState(new Set()); // Armazena os dispositivos selecionados
+  const [deselectedDevices, setDeselectedDevices] = useState(new Set());
 
   const fetchDevices = async () => {
     setLoading(true);
@@ -16,6 +17,8 @@ function AtribuirPL({ Id, isOpen, onClose }) {
       const data = await response.json();
       if (response.ok) {
         setDevices(data.data || []); // Ajuste conforme a estrutura de sua resposta
+        const preSelectedDevices = new Set(data.data.filter(device => device.idPlaylist === Id).map(device => device.id));
+        setSelectedDevices(preSelectedDevices);
       } else {
         throw new Error(data.message || 'Erro ao buscar dispositivos');
       }
@@ -49,26 +52,33 @@ function AtribuirPL({ Id, isOpen, onClose }) {
       setDevices([]); // Reseta a lista de dispositivos ao fechar o modal
       setPlaylistName(''); // Reseta o nome da playlist
       setSelectedDevices(new Set()); // Limpa os dispositivos selecionados
+      setDeselectedDevices(new Set());
     }
   }, [isOpen]);
 
   const handleCheckboxChange = (deviceId) => {
     const updatedSelection = new Set(selectedDevices);
+    const updatedDeselection = new Set(deselectedDevices);
+
     if (updatedSelection.has(deviceId)) {
       updatedSelection.delete(deviceId); // Desmarca o checkbox se já estiver marcado
+      updatedDeselection.add(deviceId);
     } else {
       updatedSelection.add(deviceId); // Marca o checkbox
+      updatedDeselection.delete(deviceId);
     }
     setSelectedDevices(updatedSelection);
+    setDeselectedDevices(updatedDeselection);
   };
 
   const handleSubmit = async () => {
-    // Converte o Set de dispositivos selecionados em um array
-    const devicesToUpdate = Array.from(selectedDevices);
+    // Converte sets em arrays
+    const devicesToAdd = Array.from(selectedDevices);
+    const devicesToRemove = Array.from(deselectedDevices);
   
     try {
       // Cria um array para armazenar as promessas de atualização
-      const updatePromises = devicesToUpdate.map(async (deviceId) => {
+      const addPromises = devicesToAdd.map(async (deviceId) => {
         const response = await fetch(`http://localhost:4000/devices/${deviceId}`, { // Ajuste o endpoint se necessário
           method: 'PATCH',
           headers: {
@@ -86,13 +96,34 @@ function AtribuirPL({ Id, isOpen, onClose }) {
         return response.json(); // Retorna a resposta em formato JSON se necessário
       });
   
-      // Aguarda todas as promessas serem resolvidas
-      await Promise.all(updatePromises);
+      const removePromises = devicesToRemove.map(async (deviceId) => {
+        const response = await fetch(`http://localhost:4000/devices/${deviceId}`, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ playlist: null}),
+        });
+
+        if(!response.ok){
+          const errorData = await response.json();
+          throw new Error (`Erro ao atualizar dispositivo ${deviceId}: ${errorData.message}`);
+        }
+        return response.json();
+      });
       
-      console.log('Dispositivos atualizados com sucesso');
-      onClose(); // Fecha o modal
+      await Promise.all([...addPromises, ...removePromises]);
+
+      console.log('Dispositivo atualizados com sucesso');
+      onClose();
+    }
+    // Aguarda todas as promessas serem resolvidas
+    //await Promise.all(updatePromises);
+    
+    //console.log('Dispositivos atualizados com sucesso');
+    //onClose(); // Fecha o modal
   
-    } catch (error) {
+    catch (error) {
       console.error('Erro na requisição de atualização:', error);
     }
   };
