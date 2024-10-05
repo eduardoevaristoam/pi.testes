@@ -9,8 +9,6 @@ function PlaylistModal({ isOpen, onClose }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  if (!isOpen) return null;
-
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files).map((file) => ({
       file,

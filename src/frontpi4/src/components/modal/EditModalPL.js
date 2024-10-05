@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Modal.css';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import BinIcon from '../assets/BinIcon.png';
 
 function EditModalPL({ Id, isOpen, onClose }) {
   const [playlistName, setPlaylistName] = useState('');
@@ -15,7 +17,7 @@ function EditModalPL({ Id, isOpen, onClose }) {
       const data = await response.json();
       setPlaylistName(data.data.nome);
       setPlaylistIntervalo(data.data.intervalo);
-      buscaMidiasById(Id); // Supondo que a mídia já está disponível no objeto de resposta
+      buscaMidiasById(Id);
     } catch (error) {
       console.error('Erro ao buscar dados da playlist:', error);
     }
@@ -23,22 +25,20 @@ function EditModalPL({ Id, isOpen, onClose }) {
 
   const buscaMidiasById = async (Id) => {
     try {
-        const response = await fetch(`http://localhost:4000/playlists/${Id}/media`);
-        const mediaData = await response.json();
-        if(mediaData.status === "sucess"){
-            setExistingMedia(mediaData.data);
-        }
-    }
-    catch (error){
-        console.error('Erro ao buscar midias da playlist', error);
+      const response = await fetch(`http://localhost:4000/playlists/${Id}/media`);
+      const mediaData = await response.json();
+      if (mediaData.status === "success") {
+        setExistingMedia(mediaData.data);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar mídias da playlist', error);
     }
   };
 
   useEffect(() => {
     if (isOpen && Id) {
-      buscaDadosById(Id); // Chama a função de busca ao abrir o modal
+      buscaDadosById(Id);
     } else {
-      // Reseta os estados ao fechar o modal
       setPlaylistName('');
       setPlaylistIntervalo('');
       setMediaFiles([]);
@@ -61,7 +61,7 @@ function EditModalPL({ Id, isOpen, onClose }) {
           method: 'DELETE',
         });
         if (response.ok) {
-          setExistingMedia(existingMedia.filter(media => media.id !== mediaId)); // Atualiza a lista de mídias existentes
+          setExistingMedia(existingMedia.filter(media => media.id !== mediaId));
         } else {
           console.error('Erro ao excluir mídia:', await response.json());
         }
@@ -72,14 +72,13 @@ function EditModalPL({ Id, isOpen, onClose }) {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Evita que a página seja recarregada
+    event.preventDefault();
     setLoading(true);
     setError(null);
 
     try {
       const formData = new FormData();
       
-      // Adiciona as mídias novas ao FormData
       mediaFiles.forEach(media => {
         formData.append('media', media.file);
       });
@@ -89,7 +88,7 @@ function EditModalPL({ Id, isOpen, onClose }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ nome: playlistName, intervalo: parseInt(playlistIntervalo,10)})
+        body: JSON.stringify({ nome: playlistName, intervalo: parseInt(playlistIntervalo, 10) })
       });
 
       const response = await fetch(`http://localhost:4000/playlists/${Id}/media`, {
@@ -101,8 +100,8 @@ function EditModalPL({ Id, isOpen, onClose }) {
       const data1 = await response1.json();
       if (response.ok && response1.ok) {
         console.log('Playlist atualizada com sucesso:', data);
-        onClose(); // Fecha o modal
-        window.location.reload(); // Atualiza a página
+        onClose();
+        window.location.reload();
       } else {
         console.error('Erro ao atualizar playlist:', data.message);
       }
@@ -111,6 +110,20 @@ function EditModalPL({ Id, isOpen, onClose }) {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Função de reorganização no drag and drop
+  const onDragEnd = (result) => {
+    const { destination, source } = result;
+
+    if (!destination) return;
+    if (destination.index === source.index) return;
+
+    const reorderedMedia = Array.from(existingMedia);
+    const [movedItem] = reorderedMedia.splice(source.index, 1);
+    reorderedMedia.splice(destination.index, 0, movedItem);
+
+    setExistingMedia(reorderedMedia);
   };
 
   return (
@@ -153,14 +166,45 @@ function EditModalPL({ Id, isOpen, onClose }) {
           {existingMedia.length > 0 && (
             <div className="media-preview-container">
               <h4>Mídias existentes:</h4>
-              <div className="media-thumbnails">
-                {existingMedia.map((media) => (
-                  <div key={media.id} className="media-item">
-                    <img src={media.thumbnail} alt={media.name} className="thumbnail" />
-                    <button type="button" onClick={() => handleMediaDelete(media.id)} className="delete-button">🗑️</button>
-                  </div>
-                ))}
-              </div>
+              <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="media-list">
+                  {(provided) => (
+                    <div
+                      className="media-thumbnails"
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                    >
+                      {existingMedia.map((media, index) => (
+                        <Draggable
+                          key={media.id}
+                          draggableId={media.id.toString()}
+                          index={index}
+                        >
+                          {(provided) => (
+                            <div
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              className="media-item"
+                            >
+                              {/* Exibindo a imagem a partir da URL */}
+                              <img src={media.content} alt={`Media ${media.id}`} className="thumbnail" />
+                              <button
+                                type="button"
+                                onClick={() => handleMediaDelete(media.id)}
+                                className="delete-button"
+                              >
+                                <img src={BinIcon} alt="Excluir" />
+                              </button>
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
             </div>
           )}
 

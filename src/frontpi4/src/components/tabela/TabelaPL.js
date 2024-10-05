@@ -10,9 +10,6 @@ import OpcoesMenu from './OpcoesMenu';
 function TabelaPL(){
 
   const [selectedPlaylist, setSelectedPlaylist] = useState(null);
-  const [isOptionsModalOpen, setOptionsModalOpen] = useState(false);
-  const openOptionsModal = () => setOptionsModalOpen(true);
-  const closeOptionsModal = () => setOptionsModalOpen(false);
 
   const handleButtonClick = (playlist) => {
     setSelectedPlaylist(playlist === selectedPlaylist ? null : playlist);
