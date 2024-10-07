@@ -1,9 +1,9 @@
 //Configurando variáveis de enviroment
-const dotenv = require("dotenv");
+import dotenv from "dotenv";
 dotenv.config();
 
 //Importando middlewares, etc do Express
-const app = require("./app");
+import app from "./app";
 
 //Definindo port do servidor
 const port = process.env.PORT;

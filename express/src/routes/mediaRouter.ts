@@ -1,8 +1,11 @@
+//Importando express
+import express from "express";
 //Importando controller
-const mediaController = require("./../controllers/mediaController");
-const express = require("express");
+import mediaController from "../controllers/mediaController";
+//Importando validators
+import mediaValidators from "../validators/mediaValidators";
 //Importando Multer
-const multer = require("multer");
+import multer from "multer";
 //Configurando Multer
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -23,7 +26,11 @@ router
 
 router
   .route("/:uuid")
-  .get(mediaController.getMediaById)
-  .delete(mediaController.deleteMediaBucket, mediaController.deleteMedia);
+  .get(mediaValidators.validateMediaIDParameter, mediaController.getMediaById)
+  .delete(
+    mediaValidators.validateMediaIDParameter,
+    mediaController.deleteMediaBucket,
+    mediaController.deleteMedia
+  );
 
 module.exports = router;

@@ -1,18 +1,14 @@
 //Importando Express
-const express = require("express");
-//Importando conexão com o POSTGRESQL
-const database = require("./database");
+import express from "express";
 //Importando CORS
-const cors = require("cors");
-//Importando Multer - Acho que nao precisa estar aqui
-const multer = require("multer");
+import cors from "cors";
 //Importando cookie-parser
-const cookieParser = require("cookie-parser");
+import cookieParser from "cookie-parser";
 
 //Importando router de midia
-const mediaRouter = require("./routes/mediaRouter");
-const playlistRouter = require("./routes/playlistRouter");
-const deviceRouter = require("./routes/deviceRouter");
+import mediaRouter from "./routes/mediaRouter";
+import playlistRouter from "./routes/playlistRouter";
+import deviceRouter from "./routes/deviceRouter";
 
 //Atribuindo express à variável app
 const app = express();
@@ -43,4 +39,4 @@ database.connect((err) => {
 */
 
 //Exportando app para ser usado em server.js
-module.exports = app;
+export default app;
