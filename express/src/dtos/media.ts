@@ -17,11 +17,3 @@ export const mediaIDParameter = z.object({
 });
 //Inferring DTO from validator
 export type MediaIDParameter = z.infer<typeof mediaIDParameter>;
-
-//Media query
-export const playlistMediaQuery = z.object({
-  page: z.coerce.number().min(1, ErrorMessages.MediaQuery).optional(),
-  limit: z.coerce.number().min(1, ErrorMessages.MediaQuery).optional(),
-});
-//Inferring DTO from validator
-export type PlaylistMediaQuery = z.infer<typeof playlistMediaQuery>;
