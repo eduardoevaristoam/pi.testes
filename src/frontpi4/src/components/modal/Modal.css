@@ -63,13 +63,19 @@
   margin-bottom: 1rem;
 }
 
+.media-preview-container.scrollable {
+  max-height: 300px; /* Defina a altura máxima da área de exibição */
+  overflow-y: auto; /* Adiciona a barra de rolagem vertical */
+  padding-right: 10px; /* Espaçamento para a barra de rolagem */
+}
+
 .media-thumbnails {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
 }
 
 .media-item {
-  margin: 10px;
   width: 100px;
   height: 100px;
   position: relative;
