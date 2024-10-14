@@ -115,16 +115,18 @@ function EditModalPL({ Id, isOpen, onClose }) {
   // Função de reorganização no drag and drop
   const onDragEnd = (result) => {
     const { destination, source } = result;
-
-    if (!destination) return;
-    if (destination.index === source.index) return;
-
-    const reorderedMedia = Array.from(existingMedia);
-    const [movedItem] = reorderedMedia.splice(source.index, 1);
-    reorderedMedia.splice(destination.index, 0, movedItem);
-
-    setExistingMedia(reorderedMedia);
+  
+    // Se não houver destino ou se o item não foi movido
+    if (!destination || destination.index === source.index) return;
+  
+    setExistingMedia((prevMedia) => {
+      const reorderedMedia = Array.from(prevMedia);
+      const [movedItem] = reorderedMedia.splice(source.index, 1);
+      reorderedMedia.splice(destination.index, 0, movedItem);
+      return reorderedMedia;
+    });
   };
+  
 
   return (
     <div className="modal">
@@ -200,7 +202,9 @@ function EditModalPL({ Id, isOpen, onClose }) {
                           )}
                         </Draggable>
                       ))}
-                      {provided.placeholder}
+                      {provided.placeholder && (
+                        <div className="draggable-placeholder"></div>
+                      )}
                     </div>
                   )}
                 </Droppable>
