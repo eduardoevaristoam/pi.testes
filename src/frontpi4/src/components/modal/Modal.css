@@ -12,6 +12,7 @@
   
 .modal-content {
   background-color: #CAD2C5;
+  font-family: Arial, sans-serif;
   padding: 2rem;
   border-radius: 10px;
   width: 400px;
@@ -23,6 +24,7 @@
 }
 
 .modal-content label {
+  font-family: Arial, sans-serif;
   display: block;
   margin-bottom: 1rem;
 }

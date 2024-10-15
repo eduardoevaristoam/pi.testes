@@ -163,11 +163,13 @@ function EditModalPL({ Id, isOpen, onClose }) {
               onChange={handleFileChange}
             />
           </label>
+          <label>
+            <h4>Mídias existentes:</h4>
+          </label>
 
           {/* Exibindo as miniaturas das mídias existentes */}
           {existingMedia.length > 0 && (
             <div className="media-preview-container scrollable">
-              <h4>Mídias existentes:</h4>
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="media-list">
                   {(provided) => (
