@@ -110,3 +110,15 @@
   width: 20px;
   height: 20px;
 }
+
+/* Container que permite a rolagem */
+.scrollable {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Estilização da mídia recém-adicionada */
+.new-media {
+  border: 4px solid #2F3E46; /* Cor diferenciada para as mídias recém-adicionadas */
+  background-color: #52796F; /* Fundo leve para diferenciar */
+}

@@ -8,6 +8,7 @@ function EditModalPL({ Id, isOpen, onClose }) {
   const [playlistIntervalo, setPlaylistIntervalo] = useState('');
   const [mediaFiles, setMediaFiles] = useState([]);
   const [existingMedia, setExistingMedia] = useState([]);
+  const [allMedia, setAllMedia] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -29,6 +30,7 @@ function EditModalPL({ Id, isOpen, onClose }) {
       const mediaData = await response.json();
       if (mediaData.status === "success") {
         setExistingMedia(mediaData.data);
+        setAllMedia([...mediaData.data]); // Inicialmente carrega as mídias existentes
       }
     } catch (error) {
       console.error('Erro ao buscar mídias da playlist', error);
@@ -43,30 +45,41 @@ function EditModalPL({ Id, isOpen, onClose }) {
       setPlaylistIntervalo('');
       setMediaFiles([]);
       setExistingMedia([]);
+      setAllMedia([]);
     }
   }, [isOpen, Id]);
 
   const handleFileChange = (event) => {
     const selectedFiles = Array.from(event.target.files).map((file) => ({
+      id: `new-${file.name}`, // Gera um ID único para cada mídia nova
       file,
       preview: URL.createObjectURL(file),
+      isNew: true, // Marca como mídia nova
     }));
     setMediaFiles(selectedFiles);
+    setAllMedia([...allMedia, ...selectedFiles]); // Adiciona as novas mídias à lista de todas as mídias
   };
 
   const handleMediaDelete = async (mediaId) => {
     if (window.confirm('Você tem certeza que deseja excluir esta mídia?')) {
-      try {
-        const response = await fetch(`http://localhost:4000/media/${mediaId}`, {
-          method: 'DELETE',
-        });
-        if (response.ok) {
-          setExistingMedia(existingMedia.filter(media => media.id !== mediaId));
-        } else {
-          console.error('Erro ao excluir mídia:', await response.json());
+      if (!mediaId.startsWith('new-')) { // Somente apaga mídias do servidor
+        try {
+          const response = await fetch(`http://localhost:4000/media/${mediaId}`, {
+            method: 'DELETE',
+          });
+          if (response.ok) {
+            setExistingMedia(existingMedia.filter(media => media.id !== mediaId));
+            setAllMedia(allMedia.filter(media => media.id !== mediaId));
+          } else {
+            console.error('Erro ao excluir mídia:', await response.json());
+          }
+        } catch (error) {
+          console.error('Erro na requisição de exclusão de mídia:', error);
         }
-      } catch (error) {
-        console.error('Erro na requisição de exclusão de mídia:', error);
+      } else {
+        // Para mídias novas que ainda não foram enviadas ao servidor
+        setMediaFiles(mediaFiles.filter(media => media.id !== mediaId));
+        setAllMedia(allMedia.filter(media => media.id !== mediaId));
       }
     }
   };
@@ -116,17 +129,15 @@ function EditModalPL({ Id, isOpen, onClose }) {
   const onDragEnd = (result) => {
     const { destination, source } = result;
   
-    // Se não houver destino ou se o item não foi movido
     if (!destination || destination.index === source.index) return;
   
-    setExistingMedia((prevMedia) => {
+    setAllMedia((prevMedia) => {
       const reorderedMedia = Array.from(prevMedia);
       const [movedItem] = reorderedMedia.splice(source.index, 1);
       reorderedMedia.splice(destination.index, 0, movedItem);
       return reorderedMedia;
     });
   };
-  
 
   return (
     <div className="modal">
@@ -164,11 +175,11 @@ function EditModalPL({ Id, isOpen, onClose }) {
             />
           </label>
           <label>
-            <h4>Mídias existentes:</h4>
+            <h4>Mídias:</h4>
           </label>
 
-          {/* Exibindo as miniaturas das mídias existentes */}
-          {existingMedia.length > 0 && (
+          {/* Exibindo as miniaturas de todas as mídias (existentes e novas) */}
+          {allMedia.length > 0 && (
             <div className="media-preview-container scrollable">
               <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="media-list">
@@ -178,10 +189,10 @@ function EditModalPL({ Id, isOpen, onClose }) {
                       {...provided.droppableProps}
                       ref={provided.innerRef}
                     >
-                      {existingMedia.map((media, index) => (
+                      {allMedia.map((media, index) => (
                         <Draggable
                           key={media.id}
-                          draggableId={media.id.toString()}
+                          draggableId={media.id}
                           index={index}
                         >
                           {(provided) => (
@@ -191,47 +202,57 @@ function EditModalPL({ Id, isOpen, onClose }) {
                               {...provided.dragHandleProps}
                               className="media-item"
                             >
-                              {/* Exibindo a imagem a partir da URL */}
-                              <img src={media.content} alt={`Media ${media.id}`} className="thumbnail" />
-                              <button
-                                type="button"
-                                onClick={() => handleMediaDelete(media.id)}
-                                className="delete-button"
-                              >
-                                <img src={BinIcon} alt="Excluir" />
-                              </button>
+                              {media.isNew ? (
+                                <>
+                                  {media.file.type.startsWith('image') ? (
+                                    <div className="media-item">
+                                      <img 
+                                        src={media.preview} alt={media.file.name} className="thumbnail" 
+                                      />
+                                      <button
+                                        type="button"
+                                        onClick={() => handleMediaDelete(media.id)}
+                                        className="delete-button"
+                                      >
+                                        <img src={BinIcon} alt="Excluir" />
+                                      </button>
+                                    </div>
+                                  ) : media.file.type.startsWith('video') ? (
+                                    <div className="media-item">
+                                      <video src={media.preview} controls className="thumbnail" />
+                                      <button
+                                        type="button"
+                                        onClick={() => handleMediaDelete(media.id)}
+                                        className="delete-button"
+                                      >
+                                        <img src={BinIcon} alt="Excluir" />
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    <p>Arquivo não suportado: {media.file.name}</p>
+                                  )}
+                                </>
+                              ) : (
+                                <>
+                                  <img src={media.content} alt={`Media ${media.id}`} className="thumbnail" />
+                                  <button
+                                    type="button"
+                                    onClick={() => handleMediaDelete(media.id)}
+                                    className="delete-button"
+                                  >
+                                    <img src={BinIcon} alt="Excluir" />
+                                  </button>
+                                </>
+                              )}
                             </div>
                           )}
                         </Draggable>
                       ))}
-                      {provided.placeholder && (
-                        <div className="draggable-placeholder"></div>
-                      )}
+                      {provided.placeholder && <div className="draggable-placeholder"></div>}
                     </div>
                   )}
                 </Droppable>
               </DragDropContext>
-            </div>
-          )}
-
-
-          {/* Exibindo as miniaturas das mídias selecionadas */}
-          {mediaFiles.length > 0 && (
-            <div className="media-preview-container">
-              <h4>Mídias selecionadas:</h4>
-              <div className="media-thumbnails">
-                {mediaFiles.map((media, index) => (
-                  <div key={index} className="media-item">
-                    {media.file.type.startsWith('image') ? (
-                      <img src={media.preview} alt={media.file.name} className="thumbnail" />
-                    ) : media.file.type.startsWith('video') ? (
-                      <video src={media.preview} controls className="thumbnail" />
-                    ) : (
-                      <p>Arquivo não suportado: {media.file.name}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
             </div>
           )}
           <div className="modal-buttons">
