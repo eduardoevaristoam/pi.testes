@@ -33,4 +33,4 @@ router
     mediaController.deleteMedia
   );
 
-module.exports = router;
+export default router;

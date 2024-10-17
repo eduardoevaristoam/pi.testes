@@ -16,6 +16,7 @@ datasource db {
 model Midia {
   id         Int      @id @default(autoincrement())
   uuid       String   @unique
+  order      Int?
   content    String
   mimetype   String
   //Definindo foreign key id, de Playlist
@@ -27,6 +28,7 @@ model Playlist {
   id          Int           @id @default(autoincrement())
   nome        String        @unique
   intervalo   Int
+  updatedAt   DateTime      @default(now()) @updatedAt
   Midia       Midia[]
   Dispositivo Dispositivo[]
 }

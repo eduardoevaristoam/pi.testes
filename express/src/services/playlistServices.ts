@@ -39,7 +39,7 @@ async function getPlaylistWithMediaById(id: number) {
   try {
     const data = await playlist.findUnique({
       where: { id },
-      include: { Midia: true },
+      include: { Midia: { orderBy: [{ order: "asc" }, { id: "asc" }] } },
     });
     return data;
   } catch (err) {
@@ -66,10 +66,19 @@ async function deletePlaylist(id: number) {
   }
 }
 
+async function updatePlaylistUpdateAt(id: number) {
+  try {
+    await playlist.update({ where: { id }, data: { updatedAt: new Date() } });
+  } catch (err) {
+    throw new Error("...");
+  }
+}
+
 export default {
   createPlaylist,
   getAllPlaylists,
   getPlaylistWithMediaById,
   getPlaylistWithoutMediaById,
   deletePlaylist,
+  updatePlaylistUpdateAt,
 };

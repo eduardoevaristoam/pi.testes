@@ -69,10 +69,18 @@ async function getMediaByPlaylistId(
       const take = Number(query?.limit) || 5;
       //const skip = req.query.page * take - take;
       const skip = (query.page - 1) * take;
-      data = await midia.findMany({ where: { idPlaylist }, skip, take });
+      data = await midia.findMany({
+        where: { idPlaylist },
+        orderBy: [{ order: "asc" }, { id: "asc" }],
+        skip,
+        take,
+      });
     } else {
       //Caso NÃO tenhamos uma query page na URL
-      data = await midia.findMany({ where: { idPlaylist } });
+      data = await midia.findMany({
+        where: { idPlaylist },
+        orderBy: [{ order: "asc" }, { id: "asc" }],
+      });
     }
 
     count = await midia.count({ where: { idPlaylist } });
@@ -121,7 +129,15 @@ async function putMediaInBucket(body: Buffer, contentType: string) {
     return uuid;
   } catch (err) {
     console.log(process.env);
-    throw new Error(err.message);
+    throw new Error("...");
+  }
+}
+
+async function updateMediaOrder(uuid: string, order: number) {
+  try {
+    midia.update({ where: { uuid }, data: { order } });
+  } catch (err) {
+    throw new Error("...");
   }
 }
 
@@ -133,4 +149,5 @@ export default {
   deleteMediaFromBucket,
   putMediaInBucket,
   createMediaDTO,
+  updateMediaOrder,
 };

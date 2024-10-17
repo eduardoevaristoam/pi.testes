@@ -10,6 +10,7 @@ import { MediaIDParameter, CreateMediaDTO } from "../dtos/media";
 import { PlaylistIDParameter, PlaylistMediaQuery } from "../dtos/playlist";
 //Importando enum de status code
 import StatusCodes from "../enums/StatusCodes";
+import playlistServices from "../services/playlistServices";
 
 const acceptedMimeTypes = new Map([
   // Images
@@ -57,7 +58,7 @@ async function postMedia(
     );
 
     const data = await midia.create({ data: mediaDTO });
-    //console.log(mediaDTO);
+    await playlistServices.updatePlaylistUpdateAt(id);
     res.status(StatusCodes.CREATED).json({ status: "success", data: data });
   } catch (err) {
     res.status(StatusCodes.INTERNAL_ERROR).json({
