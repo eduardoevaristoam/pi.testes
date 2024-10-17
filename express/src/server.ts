@@ -6,7 +6,7 @@ dotenv.config();
 import app from "./app";
 
 //Definindo port do servidor
-const port = process.env.PORT;
+const port = process.env.PORT || 4000;
 
 //Iniciando servidor
 app.listen(port, () => {
