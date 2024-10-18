@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import '../modal/Modal.css';
-import ServiceOptions from '../serviceoptions/ServiceOptions';
 import EditModalDV from '../modal/EditModalDV';
 import EditModalPL from '../modal/EditModalPL';
 import AtribuirDV from '../modal/AtribuirDV';
@@ -38,7 +37,6 @@ function OpcoesMenu({ direction, data, Id, name, onClose }) {
         if(direction == "playlists"){
             openModalHandler('editmodalpl');
         }
-
     };
 
     const handleExcluir = async (event) => {

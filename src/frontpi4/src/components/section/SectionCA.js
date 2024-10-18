@@ -4,7 +4,6 @@ import Section from '../section/Section';
 import PlaylistModal from '../modal/PlaylistModal';
 import DeviceModal from '../modal/DeviceModal';
 import FilaSenha from '../filasenha/FilaSenha';
-import ServiceOptions from '../serviceoptions/ServiceOptions';
 import TabelaFS from '../tabela/TabelaFS';
 import TabelaPL from '../tabela/TabelaPL';
 import TabelaDV from '../tabela/TabelaDV';
