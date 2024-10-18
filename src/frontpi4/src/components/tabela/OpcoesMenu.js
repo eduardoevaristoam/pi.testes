@@ -4,6 +4,7 @@ import EditModalDV from '../modal/EditModalDV';
 import EditModalPL from '../modal/EditModalPL';
 import AtribuirDV from '../modal/AtribuirDV';
 import AtribuirPL from '../modal/AtribuirPL';
+import AtribuirFS from '../filaesenha/AtribuirFS';
 
 function OpcoesMenu({ direction, data, Id, name, onClose }) {
     const [loading, setLoading] = useState(false);
@@ -16,21 +17,19 @@ function OpcoesMenu({ direction, data, Id, name, onClose }) {
 
     // Funções para os botões do menu
     const handleAtribuirServico = () => {
-        //alert(`Atribuir serviço ao dispositivo: ${name}`);
-        //onClose();
-        //openModalHandler('editmodaldv');
         if(direction == "devices"){
             openModalHandler('atribuirpl');
         }
         if(direction == "playlists"){
             openModalHandler('atribuirpl');
         }
+        if(direction == "atribuirfs"){
+            openModalHandler('atribuirfs');
+        }
  
     };
 
     const handleEditar = () => {
-        //alert(`Editar dispositivo: ${name}`);
-        //onClose();
         if(direction == "devices"){
             openModalHandler('editmodaldv');
         }
@@ -72,10 +71,17 @@ function OpcoesMenu({ direction, data, Id, name, onClose }) {
                     {direction !== "devices" && (
                         <button type="button" onClick={handleAtribuirServico}>Atribuir Serviço</button>
                     )}
-                    <button type="button" onClick={handleEditar}>Editar</button>
-                    <button type="button" onClick={handleExcluir} disabled={loading}>
-                        {loading ? 'Excluindo...' : 'Excluir'}
-                    </button>
+
+                    {direction !== "atribuirfs" && (
+                        <button type="button" onClick={handleEditar}>Editar</button>
+                    )}
+
+                    {direction !== "atribuirfs" && (
+                        <button type="button" onClick={handleExcluir} disabled={loading}>
+                            {loading ? 'Excluindo...' : 'Excluir'}
+                        </button>
+                    )}
+
                     <button type="button" onClick={onClose}>Cancelar</button>
                 </div>
                 {message && <div style={{ color: 'green' }}>{message}</div>}
@@ -85,6 +91,7 @@ function OpcoesMenu({ direction, data, Id, name, onClose }) {
             {openModal === 'editmodalpl' && <EditModalPL Id={Id} isOpen={true} onClose={closeModalHandler} />}
             {openModal === 'atribuirdv' && <AtribuirDV Id={Id} isOpen={true} onClose={closeModalHandler} />}
             {openModal === 'atribuirpl' && <AtribuirPL Id={Id} isOpen={true} onClose={closeModalHandler} />}
+            {openModal === 'atribuirfs' && <AtribuirFS Id={1} isOpen={true} onClose={closeModalHandler} />}
         </div>
     );
 }

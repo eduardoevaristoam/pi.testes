@@ -64,6 +64,7 @@ function AtribuirFS({ Id, isOpen, onClose }) {
     // Converte sets em arrays
     const devicesToAdd = Array.from(selectedDevices);
     const devicesToRemove = Array.from(deselectedDevices);
+    console.log({Id});
   
     try {
       // Cria um array para armazenar as promessas de atualização

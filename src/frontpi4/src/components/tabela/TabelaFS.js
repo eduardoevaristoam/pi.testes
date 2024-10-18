@@ -1,30 +1,42 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './Tabela.css';
+import OpcoesMenu from './OpcoesMenu';
 
-function Tabela({title1, title2 , children1}){
-    
-    const [showServiceOptions, setShowServiceOptions] = useState(false);//controla visibilidade da lista de dispositivos
+function TabelaFS({ title1, title2, children1 }) {
+  const [showOptions, setShowOptions] = useState(false); // Estado para controlar a visibilidade do OpcoesMenu
 
-    const toggleServiceOptions = () => setShowServiceOptions(!showServiceOptions);
+  const handleToggleOptions = () => {
+    setShowOptions(!showOptions); // Alterna entre mostrar ou ocultar o menu
+  };
 
-    return(
-        <table className="service-table">
-            <thead>
-              <tr>
-                <th>{title1}</th>
-                <th>{title2}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{children1}</td>
-                <td>
-                  <button>...</button>
-                </td>
-              </tr>
-            </tbody>
-        </table> 
-    );
+  return (
+    <div>
+      <table className="service-table">
+        <thead>
+          <tr>
+            <th>{title1}</th>
+            <th>{title2}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{children1}</td>
+            <td>
+              <button onClick={handleToggleOptions}>...</button>
+              {showOptions && (
+                <OpcoesMenu
+                  direction="atribuirfs"
+                  Id={1}
+                  name="Servico"
+                  onClose={() => setShowOptions(false)}
+                />
+              )}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
 }
 
-export default Tabela
+export default TabelaFS;
