@@ -6,12 +6,21 @@ function EditModalDV({ Id, isOpen, onClose }) {
   const [deviceName, setDeviceName] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [playlistName, setPlaylistName] = useState('');
 
   const buscaDadosById = async (Id) => {
     try{
       const response = await fetch(`http://localhost:4000/devices/${Id}`);
       const data = await response.json();
+      const response1 = await fetch(`http://localhost:4000/playlists/${data.data.idPlaylist}`);
+      const data1 = await response1.json();
       setDeviceName(data.data.nome);
+      if(data.data.idPlaylist !== null ){
+        setPlaylistName(data1.data.nome);
+      }
+      else{
+        setPlaylistName("Nenhuma atribuição.");
+      }
     }
     catch (error){
       console.error('Erro ao verificar nome do dispositivo:', error);
@@ -92,6 +101,13 @@ function EditModalDV({ Id, isOpen, onClose }) {
               value={deviceName}
               onChange={(e) => setDeviceName(e.target.value)}
               required 
+            />
+          </label>
+          <label>
+            Playlist atribuida:
+            <input 
+              value={playlistName}
+              disabled
             />
           </label>
           <div className="modal-buttons">
