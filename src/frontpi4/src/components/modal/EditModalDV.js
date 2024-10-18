@@ -92,7 +92,7 @@ function EditModalDV({ Id, isOpen, onClose }) {
   return (
     <div className="modal" >
       <div className="modal-content">
-        <h3>Cadastrar Dispositivo</h3>
+        <h3>Editar Dispositivo Cadastrado</h3>
         <form onSubmit={handleSubmit}>
           <label>
             Nome do Dispositivo:

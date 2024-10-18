@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import './Tabela.css';
-import ServiceModal from '../modal/ServiceModal';
 
 function Tabela({title1, title2 , children1}){
     
@@ -20,7 +19,7 @@ function Tabela({title1, title2 , children1}){
               <tr>
                 <td>{children1}</td>
                 <td>
-                  <button onClick={(<ServiceModal isOpen={showServiceOptions} onClose={toggleServiceOptions} />)} >...</button>
+                  <button>...</button>
                 </td>
               </tr>
             </tbody>
