@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SectionDevice() {
-  const [dispositivo, setDispositivo] = useState('');
+  const [dispositivo, setDispositivo] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ function SectionDevice() {
       const response = await fetch(`http://localhost:4000/devices`);
       const data = await response.json();
 
-      if (data.status === 'success') {
+      if (data.status === "success") {
         // Verifica se existe algum dispositivo com o nome informado
         const dispositivoEncontrado = data.data.find(
           (device) => device.nome.toLowerCase() === dispositivo.toLowerCase()
@@ -25,14 +25,14 @@ function SectionDevice() {
           navigate(`/apresentacao-dispositivo/${dispositivoEncontrado.id}`);
         } else {
           // Se o dispositivo não foi encontrado, exibe uma mensagem de erro
-          setError('Dispositivo não encontrado');
+          setError("Dispositivo não encontrado");
         }
       } else {
-        setError('Erro ao buscar dispositivos');
+        setError("Erro ao buscar dispositivos");
       }
     } catch (error) {
-      console.error('Erro ao buscar dispositivos:', error);
-      setError('Erro ao conectar-se ao servidor');
+      console.error("Erro ao buscar dispositivos:", error);
+      setError("Erro ao conectar-se ao servidor");
     }
   };
 
