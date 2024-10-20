@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
+    "start:dev": "tsx src/server.ts",
     "start": "node build/server.js",
     "build": "tsc --build"
   },

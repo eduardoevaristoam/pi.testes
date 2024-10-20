@@ -11,6 +11,8 @@ import { PlaylistIDParameter, PlaylistMediaQuery } from "../dtos/playlist";
 //Importando enum de status code
 import StatusCodes from "../enums/StatusCodes";
 import playlistServices from "../services/playlistServices";
+import fs from "node:fs/promises";
+import multer from "multer";
 
 const acceptedMimeTypes = new Map([
   // Images
@@ -24,6 +26,7 @@ const acceptedMimeTypes = new Map([
   ["video/mpeg", "mpeg"],
   ["video/webm", "webm"],
   ["video/x-msvideo", "avi"],
+  ["text/plain", "text"],
 ]);
 
 //Obtém todas as mídias
@@ -148,6 +151,8 @@ function checkMimeType(req: Request, res: Response, next: NextFunction): any {
 
   //Aqui há certeza que req.file existe, se não, já teria retornado no next(), por isso o uso de Non-Null Assertion (!)
   const mimetype = req.file!.mimetype;
+  console.log(req.file?.mimetype);
+  //process.exit();
   if (acceptedMimeTypes.get(mimetype)) {
     //Se for aceito, incluiremos essa informação no objeto de request para usar posteriormente
     req.mimetype = mimetype;
@@ -157,6 +162,27 @@ function checkMimeType(req: Request, res: Response, next: NextFunction): any {
       .json({ status: "fail", message: "Formato de arquivo não aceito" });
   }
   //console.log(req);
+  next();
+}
+
+async function readTextFromFile(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  if (req.file!.mimetype === "text/plain") {
+    try {
+      //fs cannot read from buffer
+      //buffers have a built-in 'toString()' method
+      //const text = await fs.readFile(req.file!.buffer, { encoding: "utf-8" });
+      const text = req.file?.buffer.toString("utf-8");
+      //Request is an interface, req.body is 'any'
+      req.body.text = text;
+      req.isText = true;
+    } catch (err) {
+      throw new Error("...");
+    }
+  }
   next();
 }
 
@@ -231,4 +257,5 @@ export default {
   checkBody,
   checkMimeType,
   putNewMedia,
+  readTextFromFile,
 };

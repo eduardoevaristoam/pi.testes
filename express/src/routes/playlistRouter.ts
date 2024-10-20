@@ -50,6 +50,7 @@ router
     upload.single("media"),
     mediaController.checkBody,
     mediaController.checkMimeType,
+    mediaController.readTextFromFile,
     mediaController.putNewMedia,
     mediaController.postMedia
   );
