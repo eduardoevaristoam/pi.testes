@@ -13,6 +13,7 @@ import {
 } from "../dtos/playlist";
 //Importando enum de status code
 import StatusCodes from "../enums/StatusCodes";
+import mediaServices from "../services/mediaServices";
 
 //Cria uma nova playlist
 async function createPlaylist(
@@ -91,11 +92,23 @@ async function deletePlaylist(
 ) {
   try {
     //get playlist
-    //filter all that's not text
-    //delete playlist - if failed, media's still in the bucket, if success, delete media in bucket
-    //delete media in bucket
     const id = Number(req.params.id);
+
+    //filter all that's not text
+    const playlist = await playlistServices.getPlaylistWithNonTextMediaById(id);
+
+    //delete playlist - if failed, media's still in the bucket, if success, delete media in bucket
     await playlistServices.deletePlaylist(id);
+
+    //Deleting media from bucket
+    //Narrowing for Typescript purposes
+    if (playlist?.Midia) {
+      for (const midia of playlist?.Midia) {
+        //delete media in bucket
+        await mediaServices.deleteMediaFromBucket(midia.uuid);
+      }
+    }
+
     res
       .status(StatusCodes.OK)
       .json({ status: "success", message: "Playlist deletada!" });

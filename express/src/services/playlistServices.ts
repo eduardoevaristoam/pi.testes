@@ -47,6 +47,23 @@ async function getPlaylistWithMediaById(id: number) {
   }
 }
 
+async function getPlaylistWithNonTextMediaById(id: number) {
+  try {
+    const data = await playlist.findUnique({
+      where: { id },
+      include: {
+        Midia: {
+          orderBy: [{ order: "asc" }, { id: "asc" }],
+          where: { mimetype: { not: "text/plain" } },
+        },
+      },
+    });
+    return data;
+  } catch (err) {
+    throw new Error("Erro ao obter playlist.");
+  }
+}
+
 async function getPlaylistWithoutMediaById(id: number) {
   try {
     const data = await playlist.findUnique({
@@ -81,4 +98,5 @@ export default {
   getPlaylistWithoutMediaById,
   deletePlaylist,
   updatePlaylistUpdateAt,
+  getPlaylistWithNonTextMediaById,
 };
