@@ -11,7 +11,7 @@ function SectionDevice() {
 
     try {
       // Faz uma chamada para buscar todos os dispositivos do banco de dados
-      const response = await fetch(`http://localhost:4000/devices`);
+      const response = await fetch(`https://api-p-i-4.onrender.com/devices`);
       const data = await response.json();
 
       if (data.status === "success") {

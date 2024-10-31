@@ -25,7 +25,13 @@ function reducer(state, action) {
             : state.currentMedia + 1,
       };
     case "previousMedia":
-      return { ...state, currentMedia: state.currentMedia - 1 };
+      return {
+        ...state,
+        currentMedia:
+          state.currentMedia === 0
+            ? state.media.length - 1
+            : state.currentMedia - 1,
+      };
     case "noPlaylist":
       return { ...state, appStatus: "empty" };
     default:
@@ -40,6 +46,7 @@ export default function SectionApPLinDV() {
     initalState
   );
   const video = useRef(null);
+  const text = useRef(null);
   const updatedAt = useRef(null);
   //console.log(video.current)
   const { dispositivo } = useParams();
@@ -48,7 +55,7 @@ export default function SectionApPLinDV() {
     async function fetchData() {
       try {
         const resDispositivo = await fetch(
-          `http://localhost:4000/devices/${dispositivo}`
+          `https://api-p-i-4.onrender.com/devices/${dispositivo}`
         );
         console.log(dispositivo);
         const reqDispositivo = await resDispositivo.json();
@@ -56,7 +63,7 @@ export default function SectionApPLinDV() {
         if (!dispositivoPlaylist) return dispatch({ type: "noPlaylist" });
 
         const resPlaylist = await fetch(
-          `http://localhost:4000/playlists/${dispositivoPlaylist}?media=true`
+          `https://api-p-i-4.onrender.com/playlists/${dispositivoPlaylist}?media=true`
         );
         const data = await resPlaylist.json();
         if (updatedAt.current !== data.data.updatedAt) {
@@ -126,6 +133,12 @@ export default function SectionApPLinDV() {
     };
   });
 
+  useEffect(() => {
+    if (text.current) {
+      text.current.innerHTML = media[currentMedia].content;
+    }
+  }, [currentMedia]);
+
   return (
     <div>
       {media.length === 0 && appStatus === "empty" && (
@@ -152,7 +165,18 @@ export default function SectionApPLinDV() {
             />
           )}
           {media[currentMedia].mimetype.includes("text") && (
-            <div>{media.content}</div>
+            <div
+              ref={text}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                minHeight: "100vh",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              {media.content}
+            </div>
           )}
         </>
       )}
