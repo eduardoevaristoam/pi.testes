@@ -2,42 +2,36 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <link rel="stylesheet" href="/src/index.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vite + React + TS</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="/src/index.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
 </head>
 
 <body>
-
-<!--Botão que ira redirecionar para a pagina cadastrar-->
-    <a href="#" class="btnCadastrar-se">Cadastrar-se</a>
-
-    <div class="login-box">
-        <h2>Login</h2>
-        <form>
-            <div class="caixaFormulario">
-              <!--Parte do Email-->
-              <label for="email">Email</label>
-                <input type="email" placeholder="E-mail" name="email" required>
-            </div>
-            <div class="caixaFormulario">
-              <!--Parte da Senha-->
-              <label for="textoSenha">Senha</label>
-                <input type="password" placeholder="Senha" name="senha" required>
-            </div>
-            <!--Botão que ira redirecionar para a pagina esqueceu senha-->
-            <a href="#" class="btnEsqueceuSenha">Esqueceu sua senha? clique aqui!</a>
-            <!--Botão De Login-->
-            <input type="submit" value="Entrar" class="btnEntrar">
-        </form>
+    <div class="container">
+        <div class="login-box">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <input type="email" id="email" placeholder="E-mail" required>
+                <div class="toggle-password">
+                    <input type="password" id="password" placeholder="Senha" required>
+                    <span class="olho"></span>
+                </div>
+                <a href="#" class="link">Esqueceu sua senha? Clique aqui!</a>
+                <input type="submit" value="Entrar">
+            </form>
+            <a href="#" class="link">Cadastrar-se</a>
+        </div>
     </div>
-    <a href="#" class="IconeLua">
-        <img src="/src/img/iconLua.png" alt="Lua">
-    </a>
+    <div class="mode-toggle" id="modeToggle">
+        <img src="/src/img/iconLua.png" id="modeIcon" alt="Toggle Mode">
+        <img src="src/img/iconSun.png" id="modeIconSun" alt="Toggle Mode" style="display: none;">
+    </div>
 
-  <script type="module" src="/src/main.tsx"></script>
+    <script src="/src/scriptIndex.js"></script>
+    <script type="module" src="/src/main.tsx"></script>
 </body>
 
 </html>

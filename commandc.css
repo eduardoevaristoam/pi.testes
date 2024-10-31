@@ -1,0 +1,261 @@
+/* Definindo as cores do projeto */
+:root {
+    --cor1: #CAD2C5; /* Cor de fundo geral */
+    --cor2: #84A98C; /* Cor do header */
+    --cor3: #52796F; /* Cor para botões */
+    --cor4: #354F52; /* Cor de fundo do body */
+    --cor5: #2F3E46; /* Cor de texto principal */
+}
+
+/* Estilo Global */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--cor4); /* Cor de fundo do body */
+    padding: 20px; /* Espaçamento interno */
+}
+
+/* Estilos do Header */
+header {
+    background-color: var(--cor2); /* Cor de fundo do header */
+    padding: 10px;
+    position: relative;
+    border-radius: 8px; /* Bordas arredondadas */
+    margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+.header-content {
+    display: flex;
+    align-items: center; /* Alinha itens verticalmente no centro */
+    justify-content: space-between; /* Distribui o espaço entre itens */
+    width: 100%; /* Garante que o conteúdo ocupe toda a largura do header */
+    max-width: 1200px; /* Define a largura máxima do contêiner */
+    margin: 0 auto; /* Centraliza o header */
+}
+
+.title {
+    flex: 1;
+    text-align: center; /* Centraliza o texto dentro do contêiner flexível */
+    margin: 0; /* Remove a margem padrão do <h1> */
+    color: var(--cor5); /* Cor do texto do título */
+}
+
+/* Estilo do Ícone do Usuário */
+.user-icon {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px; /* Margem direita para espaçamento */
+}
+
+.user-icon img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* Faz o ícone do usuário ser redondo */
+}
+
+/* Estilos do Dropdown */
+.dropdown-content {
+    display: none; /* Inicialmente oculto */
+    position: absolute;
+    top: 60px; /* Distância do topo do header */
+    right: 10px; /* Distância da borda direita */
+    background-color: white; /* Cor de fundo do dropdown */
+    color: black; /* Cor do texto do dropdown */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Sombra para o dropdown */
+    padding: 12px;
+    border-radius: 4px; /* Bordas arredondadas */
+    min-width: 200px; /* Largura mínima do dropdown */
+    z-index: 1; /* Garante que fique acima de outros elementos */
+}
+
+/* Estilos do Botão de Logout */
+button#logoutButton {
+    background-color: #f44336; /* Cor do botão de logout */
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%; /* Ocupa toda a largura */
+    cursor: pointer; /* Muda o cursor ao passar o mouse */
+    border-radius: 4px; /* Bordas arredondadas */
+}
+
+button#logoutButton:hover {
+    background-color: #d32f2f; /* Cor do botão ao passar o mouse */
+}
+
+/* Estilos das Seções */
+.slide-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Espaçamento entre as seções */
+}
+
+.slide {
+    background-color: var(--cor1); /* Cor de fundo das seções */
+    padding: 20px; /* Espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+/* Estilos dos Títulos das Seções */
+h2 {
+    margin-top: 0; /* Remove a margem superior */
+    color: var(--cor5); /* Cor do título */
+}
+
+/* Estilos para Linhas e Colunas */
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0; /* Espaçamento interno */
+    border-bottom: 1px solid #ddd; /* Linha de separação */
+}
+
+.row a {
+    text-decoration: none; /* Remove o sublinhado */
+    color: var(--cor3); /* Cor do link */
+}
+
+.col {
+    flex: 1;
+    text-align: center; /* Centraliza o conteúdo da coluna */
+}
+
+/* Estilos de Botões */
+button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px; /* Bordas arredondadas */
+    cursor: pointer; /* Muda o cursor ao passar o mouse */
+}
+
+#addDeviceBtn {
+    background-color: var(--cor3); /* Cor do botão de adicionar dispositivo */
+    color: white;
+}
+
+#addDeviceBtn:hover {
+    background-color: #0056b3; /* Cor ao passar o mouse */
+}
+
+.edit-btn,
+.edit-device-btn,
+.delete-device-btn {
+    background-color: var(--cor3); /* Cor dos botões de edição e exclusão */
+    color: white;
+}
+
+.edit-btn:hover,
+.edit-device-btn:hover,
+.delete-device-btn:hover {
+    background-color: #0056b3; /* Cor ao passar o mouse */
+}
+
+/* Estilos para o Menu de Opções */
+.options-btn {
+    background-color: var(--cor3); /* Cor do botão de opções */
+    color: white;
+    position: relative;
+}
+
+.options-menu {
+    display: none; /* Inicialmente oculto */
+    position: absolute;
+    right: 0; /* Alinha à direita */
+    background-color: white; /* Cor de fundo do menu */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra */
+    border-radius: 4px; /* Bordas arredondadas */
+    overflow: hidden; /* Oculta conteúdo que excede */
+}
+
+.options-menu button {
+    display: block;
+    width: 100%; /* Largura total */
+    padding: 10px; /* Espaçamento interno */
+    background-color: white; /* Cor de fundo */
+    color: black; /* Cor do texto */
+    border: none;
+    text-align: left; /* Alinha o texto à esquerda */
+    cursor: pointer; /* Muda o cursor ao passar o mouse */
+}
+
+.options-menu button:hover {
+    background-color: #f4f4f4; /* Cor ao passar o mouse */
+}
+
+/* Estilos da Modal */
+.modal {
+    display: none; /* Inicialmente oculta */
+    position: fixed;
+    z-index: 1000; /* Fica acima de outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%; /* Ocupa toda a largura */
+    height: 100%; /* Ocupa toda a altura */
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+}
+
+.modal-content {
+    background-color: white; /* Cor de fundo da modal */
+    padding: 20px; /* Espaçamento interno */
+    border-radius: 8px; /* Bordas arredondadas */
+    width: 50%; /* Largura da modal */
+    max-width: 500px; /* Largura máxima */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Sombra */
+}
+
+/* Estilos para o botão fechar da modal */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px; /* Tamanho da fonte */
+    cursor: pointer; /* Muda o cursor ao passar o mouse */
+}
+
+/* Estilos para os itens de mídia */
+#mediaContainer .media-item {
+    display: flex;
+    justify-content: space-between; /* Espaçamento entre itens */
+    align-items: center;
+    padding: 10px 0; /* Espaçamento interno */
+    border-bottom: 1px solid #ddd; /* Linha de separação */
+}
+
+#mediaContainer .media-item:hover {
+    background-color: #f9f9f9; /* Cor ao passar o mouse */
+}
+
+#mediaContainer .media-item .delete-media-btn {
+    color: #f44336; /* Cor do botão de excluir */
+    cursor: pointer; /* Muda o cursor ao passar o mouse */
+}
+
+/* Botões da modal */
+.modal-buttons {
+    display: flex;
+    justify-content: space-between; /* Espaçamento entre botões */
+    margin-top: 20px; /* Espaçamento superior */
+}
+
+.modal-buttons button {
+    background-color: var(--cor3); /* Cor dos botões da modal */
+    color: white;
+}
+
+/* Estilos para botões de cancelamento */
+#cancelPlaylistBtn,
+#cancelDeviceBtn,
+#cancelUpdateDeviceBtn {
+    background-color: #f44336; /* Cor de fundo para cancelamento */
+}
+
+#cancelPlaylistBtn:hover,
+#cancelDeviceBtn:hover,
+#cancelUpdateDeviceBtn:hover {
+    background-color: #d32f2f; /* Cor ao passar o mouse */
+}
