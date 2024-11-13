@@ -14,14 +14,19 @@ import loginRouter from "./routes/loginRouter";
 //Atribuindo express à variável app
 const app = express();
 
+//Middleware para habilitar CORS
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
+
 //Middleware para popular cookies
 app.use(cookieParser());
 
 //Middleware pra obter body/json
 app.use(express.json());
-
-//Middleware para habilitar CORS
-app.use(cors());
 
 //Middleware pra definir sub-apps pras rotas
 app.use("/media", mediaRouter);

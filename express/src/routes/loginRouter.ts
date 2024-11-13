@@ -6,7 +6,8 @@ const router = express.Router();
 
 router.route("/").post(loginController.loginUser);
 
-//Para debugar apenas, remover depois
 router.route("/check").post(loginController.isUserLoggedIn);
+
+router.route("/logout").post(loginController.logOut);
 
 export default router;

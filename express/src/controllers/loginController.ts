@@ -33,6 +33,9 @@ async function loginUser(req: Request, res: Response): Promise<any> {
         ),
         {
           maxAge: 2592000000,
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
         }
       )
       .json({ status: "success", message: "Usuario logado." });
@@ -64,9 +67,34 @@ async function isUserLoggedIn(
   try {
     const payload = jwt.verify(accessToken, process.env.JWT_SECRET_KEY!);
     console.log(payload);
+    res
+      .status(200)
+      .json({ status: "success", message: "Usuário está logado." });
   } catch (err) {
     res.status(400).json({ status: "fail", message: "Falha na autenticação" });
   }
 }
 
-export default { loginUser, isUserLoggedIn };
+async function logOut(req: Request, res: Response): Promise<any> {
+  try {
+    //Recuperando accessToken que deve vir como cookie do client
+    const accessToken = req.cookies?.accessToken;
+    //Se cookie nao estiver presente, retorne
+    if (!accessToken)
+      return res
+        .status(401)
+        .json({ status: "error", message: "Usuário não autenticado." });
+    res
+      .status(200)
+      .clearCookie("accessToken")
+      .json({ status: "success", message: "Usuário deslogado." });
+  } catch (err) {
+    if (err instanceof Error) {
+      res.status(500).json({ status: "error", message: err.message });
+    } else {
+      res.status(500).json({ status: "error", message: "Algo deu errado." });
+    }
+  }
+}
+
+export default { loginUser, isUserLoggedIn, logOut };
