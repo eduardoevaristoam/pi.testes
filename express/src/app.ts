@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import mediaRouter from "./routes/mediaRouter";
 import playlistRouter from "./routes/playlistRouter";
 import deviceRouter from "./routes/deviceRouter";
+import loginRouter from "./routes/loginRouter";
 
 //Atribuindo express à variável app
 const app = express();
@@ -26,6 +27,7 @@ app.use(cors());
 app.use("/media", mediaRouter);
 app.use("/playlists", playlistRouter);
 app.use("/devices", deviceRouter);
+app.use("/login", loginRouter);
 
 //Falta implementar totalmente
 //app.post("/login", loginUser);
