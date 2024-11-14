@@ -115,7 +115,7 @@ async function deleteMediaFromBucket(uuid: string) {
 async function putMediaInBucket(body: Buffer, contentType: string) {
   try {
     console.log("entrou");
-    console.log(client);
+    //console.log(client);
     //Gerando identificador único
     const uuid = crypto.randomUUID();
     //Comando pra enviar pro cliente S3
@@ -128,7 +128,8 @@ async function putMediaInBucket(body: Buffer, contentType: string) {
     await client.send(uploadCommand);
     return uuid;
   } catch (err) {
-    console.log(process.env);
+    //console.log(process.env);
+    console.log("aqqq 1");
     throw new Error("...");
   }
 }

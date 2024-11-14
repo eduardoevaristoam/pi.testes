@@ -17,7 +17,7 @@ const app = express();
 //Middleware para habilitar CORS
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["https://tofu-team.onrender.com", "http://localhost:3000"],
     credentials: true,
   })
 );
