@@ -1,30 +1,28 @@
-import React, {useRef, useState} from 'react';
-import './Modal.css';
+import React, { useRef, useState } from "react";
+import "./Modal.css";
 
 function DeviceModal({ isOpen, onClose }) {
-  
-  const [deviceName, setDeviceName] = useState('');
+  const [deviceName, setDeviceName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   if (!isOpen) return null;
 
   const checkDeviceNameExist = async (deviceName) => {
-    try{
-      const response = await fetch(`http://localhost:4000/devices`);
+    try {
+      const response = await fetch(`https://api-p-i-4.onrender.com/devices`);
       const data = await response.json();
-      for(let i = 0; i < data.data.length; i++){
-        if(data.data[i].nome === deviceName){
+      for (let i = 0; i < data.data.length; i++) {
+        if (data.data[i].nome === deviceName) {
           return true;
         }
       }
-    }
-    catch (error){
-      console.error('Erro ao verificar nome do dispositivo:', error);
+    } catch (error) {
+      console.error("Erro ao verificar nome do dispositivo:", error);
       return false;
     }
   };
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault(); // Evita que a página seja recarregada
 
@@ -32,58 +30,60 @@ function DeviceModal({ isOpen, onClose }) {
     setError(null);
 
     const nameExists = await checkDeviceNameExist(deviceName);
-    if(nameExists){
-      alert('dispositivo ja cadastrada com este nome.');
+    if (nameExists) {
+      alert("dispositivo ja cadastrada com este nome.");
       setLoading(false);
-      setDeviceName('');
+      setDeviceName("");
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:4000/devices', {
-        method: 'POST',
+      const response = await fetch("https://api-p-i-4.onrender.com/devices", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ nome: deviceName }), // Envia o nome do dispositivo
       });
 
-
       const data = await response.json();
       if (response.ok) {
-        console.log('Dispositivo cadastrado com sucesso:', data);
-        setDeviceName('');
+        console.log("Dispositivo cadastrado com sucesso:", data);
+        setDeviceName("");
         onClose();
         window.location.reload(); //mudar para algo que só atualize os cadastrados
       } else {
-        console.error('Erro ao cadastrar dispositivo:', data.message);
+        console.error("Erro ao cadastrar dispositivo:", data.message);
       }
     } catch (error) {
-      console.error('Erro na requisição:', error);
-    }
-    finally{
+      console.error("Erro na requisição:", error);
+    } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="modal" >
+    <div className="modal">
       <div className="modal-content">
         <h3>Cadastrar Dispositivo</h3>
         <form onSubmit={handleSubmit}>
           <label>
             Nome do Dispositivo:
-            <input 
-              placeholder="Insira nome do dispositivo" 
-              type="text" 
+            <input
+              placeholder="Insira nome do dispositivo"
+              type="text"
               value={deviceName}
               onChange={(e) => setDeviceName(e.target.value)}
-              required 
+              required
             />
           </label>
           <div className="modal-buttons">
-            <button type="button" onClick={onClose}>Cancelar</button>
-            <button type="submit" disabled={loading}>Cadastrar</button>
+            <button type="button" onClick={onClose}>
+              Cancelar
+            </button>
+            <button type="submit" disabled={loading}>
+              Cadastrar
+            </button>
           </div>
         </form>
       </div>
@@ -91,4 +91,4 @@ function DeviceModal({ isOpen, onClose }) {
   );
 }
 
-export default DeviceModal
+export default DeviceModal;

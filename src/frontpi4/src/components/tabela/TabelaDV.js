@@ -3,13 +3,12 @@ falta criar o componente que traz as informações e alimenta os <tr />
 das tabelas
 */
 
-import Tabela from './Tabela.css';
-import React, { useEffect, useState} from 'react';
-import OpcoesMenu from './OpcoesMenu';
+import Tabela from "./Tabela.css";
+import React, { useEffect, useState } from "react";
+import OpcoesMenu from "./OpcoesMenu";
 
-function TabelaDV(){
-
-  const [selectedDevice, setSelectedDevice] = useState(null);//controla qual dispositivo esta sendo manipulado
+function TabelaDV() {
+  const [selectedDevice, setSelectedDevice] = useState(null); //controla qual dispositivo esta sendo manipulado
   const [isOptionsModalOpen, setOptionsModalOpen] = useState(false);
   const openOptionsModal = () => setOptionsModalOpen(true);
   const closeOptionsModal = () => setOptionsModalOpen(false);
@@ -24,9 +23,9 @@ function TabelaDV(){
 
   const fetchDevices = async () => {
     try {
-      const response = await fetch('http://localhost:4000/devices');
+      const response = await fetch("https://api-p-i-4.onrender.com/devices");
       if (!response.ok) {
-        throw new Error('Erro ao buscar dispositivos');
+        throw new Error("Erro ao buscar dispositivos");
       }
       const data = await response.json();
       setDevices(data.data); // data.data contém os dispositivos
@@ -49,30 +48,35 @@ function TabelaDV(){
     return <div>Error: {error}</div>;
   }
 
-
-  return(
+  return (
     <table className="service-table">
-        <thead>
-          <tr>
-            <th>Nome Dispositivo</th>
-            <th>Opções</th>
+      <thead>
+        <tr>
+          <th>Nome Dispositivo</th>
+          <th>Opções</th>
+        </tr>
+      </thead>
+      <tbody>
+        {devices.map((device) => (
+          <tr key={device.id}>
+            <td>{device.nome}</td>
+            <td>
+              <button onClick={() => handleButtonClick(device.id)}>...</button>
+              {selectedDevice === device.id && (
+                <OpcoesMenu
+                  direction="devices"
+                  data={devices}
+                  Id={device.id}
+                  name={device.name}
+                  onClose={() => setSelectedDevice(null)}
+                />
+              )}
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {devices.map((device) => (
-            <tr key={device.id}>
-              <td>{device.nome}</td>
-              <td>
-                <button onClick={() => handleButtonClick(device.id)}>...</button>
-                {selectedDevice === device.id && ( <OpcoesMenu direction="devices" data={devices} Id={device.id} name={device.name} onClose={() => setSelectedDevice(null) } />)}
-              </td>
-            </tr>
-          ))}
-          
-        </tbody>
+        ))}
+      </tbody>
     </table>
-    
   );
 }
 
-export default TabelaDV
+export default TabelaDV;

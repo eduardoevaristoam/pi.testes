@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import './Modal.css';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import BinIcon from '../assets/BinIcon.png';
+import React, { useEffect, useState } from "react";
+import "./Modal.css";
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
+import BinIcon from "../assets/BinIcon.png";
 
 function EditModalPL({ Id, isOpen, onClose }) {
-  const [playlistName, setPlaylistName] = useState('');
-  const [playlistIntervalo, setPlaylistIntervalo] = useState('');
+  const [playlistName, setPlaylistName] = useState("");
+  const [playlistIntervalo, setPlaylistIntervalo] = useState("");
   const [mediaFiles, setMediaFiles] = useState([]);
   const [existingMedia, setExistingMedia] = useState([]);
   const [allMedia, setAllMedia] = useState([]);
@@ -14,26 +14,30 @@ function EditModalPL({ Id, isOpen, onClose }) {
 
   const buscaDadosById = async (Id) => {
     try {
-      const response = await fetch(`http://localhost:4000/playlists/${Id}`);
+      const response = await fetch(
+        `https://api-p-i-4.onrender.com/playlists/${Id}`
+      );
       const data = await response.json();
       setPlaylistName(data.data.nome);
       setPlaylistIntervalo(data.data.intervalo);
       buscaMidiasById(Id);
     } catch (error) {
-      console.error('Erro ao buscar dados da playlist:', error);
+      console.error("Erro ao buscar dados da playlist:", error);
     }
   };
 
   const buscaMidiasById = async (Id) => {
     try {
-      const response = await fetch(`http://localhost:4000/playlists/${Id}/media`);
+      const response = await fetch(
+        `https://api-p-i-4.onrender.com/playlists/${Id}/media`
+      );
       const mediaData = await response.json();
       if (mediaData.status === "success") {
         setExistingMedia(mediaData.data);
         setAllMedia([...mediaData.data]); // Inicialmente carrega as mídias existentes
       }
     } catch (error) {
-      console.error('Erro ao buscar mídias da playlist', error);
+      console.error("Erro ao buscar mídias da playlist", error);
     }
   };
 
@@ -41,8 +45,8 @@ function EditModalPL({ Id, isOpen, onClose }) {
     if (isOpen && Id) {
       buscaDadosById(Id);
     } else {
-      setPlaylistName('');
-      setPlaylistIntervalo('');
+      setPlaylistName("");
+      setPlaylistIntervalo("");
       setMediaFiles([]);
       setExistingMedia([]);
       setAllMedia([]);
@@ -61,25 +65,31 @@ function EditModalPL({ Id, isOpen, onClose }) {
   };
 
   const handleMediaDelete = async (mediaId) => {
-    if (window.confirm('Você tem certeza que deseja excluir esta mídia?')) {
-      if (!mediaId.startsWith('new-')) { // Somente apaga mídias do servidor
+    if (window.confirm("Você tem certeza que deseja excluir esta mídia?")) {
+      if (!mediaId.startsWith("new-")) {
+        // Somente apaga mídias do servidor
         try {
-          const response = await fetch(`http://localhost:4000/media/${mediaId}`, {
-            method: 'DELETE',
-          });
+          const response = await fetch(
+            `https://api-p-i-4.onrender.com/media/${mediaId}`,
+            {
+              method: "DELETE",
+            }
+          );
           if (response.ok) {
-            setExistingMedia(existingMedia.filter(media => media.id !== mediaId));
-            setAllMedia(allMedia.filter(media => media.id !== mediaId));
+            setExistingMedia(
+              existingMedia.filter((media) => media.id !== mediaId)
+            );
+            setAllMedia(allMedia.filter((media) => media.id !== mediaId));
           } else {
-            console.error('Erro ao excluir mídia:', await response.json());
+            console.error("Erro ao excluir mídia:", await response.json());
           }
         } catch (error) {
-          console.error('Erro na requisição de exclusão de mídia:', error);
+          console.error("Erro na requisição de exclusão de mídia:", error);
         }
       } else {
         // Para mídias novas que ainda não foram enviadas ao servidor
-        setMediaFiles(mediaFiles.filter(media => media.id !== mediaId));
-        setAllMedia(allMedia.filter(media => media.id !== mediaId));
+        setMediaFiles(mediaFiles.filter((media) => media.id !== mediaId));
+        setAllMedia(allMedia.filter((media) => media.id !== mediaId));
       }
     }
   };
@@ -91,35 +101,44 @@ function EditModalPL({ Id, isOpen, onClose }) {
 
     try {
       const formData = new FormData();
-      
-      mediaFiles.forEach(media => {
-        formData.append('media', media.file);
+
+      mediaFiles.forEach((media) => {
+        formData.append("media", media.file);
       });
 
-      const response1 = await fetch(`http://localhost:4000/playlists/${Id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nome: playlistName, intervalo: parseInt(playlistIntervalo, 10) })
-      });
+      const response1 = await fetch(
+        `https://api-p-i-4.onrender.com/playlists/${Id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            nome: playlistName,
+            intervalo: parseInt(playlistIntervalo, 10),
+          }),
+        }
+      );
 
-      const response = await fetch(`http://localhost:4000/playlists/${Id}/media`, {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await fetch(
+        `https://api-p-i-4.onrender.com/playlists/${Id}/media`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       const data = await response.json();
       const data1 = await response1.json();
       if (response.ok && response1.ok) {
-        console.log('Playlist atualizada com sucesso:', data);
+        console.log("Playlist atualizada com sucesso:", data);
         onClose();
         window.location.reload();
       } else {
-        console.error('Erro ao atualizar playlist:', data.message);
+        console.error("Erro ao atualizar playlist:", data.message);
       }
     } catch (error) {
-      console.error('Erro na requisição:', error);
+      console.error("Erro na requisição:", error);
     } finally {
       setLoading(false);
     }
@@ -128,9 +147,9 @@ function EditModalPL({ Id, isOpen, onClose }) {
   // Função de reorganização no drag and drop
   const onDragEnd = (result) => {
     const { destination, source } = result;
-  
+
     if (!destination || destination.index === source.index) return;
-  
+
     setAllMedia((prevMedia) => {
       const reorderedMedia = Array.from(prevMedia);
       const [movedItem] = reorderedMedia.splice(source.index, 1);
@@ -204,37 +223,53 @@ function EditModalPL({ Id, isOpen, onClose }) {
                             >
                               {media.isNew ? (
                                 <>
-                                  {media.file.type.startsWith('image') ? (
+                                  {media.file.type.startsWith("image") ? (
                                     <div className="media-item">
-                                      <img 
-                                        src={media.preview} alt={media.file.name} className="thumbnail" 
+                                      <img
+                                        src={media.preview}
+                                        alt={media.file.name}
+                                        className="thumbnail"
                                       />
                                       <button
                                         type="button"
-                                        onClick={() => handleMediaDelete(media.id)}
+                                        onClick={() =>
+                                          handleMediaDelete(media.id)
+                                        }
                                         className="delete-button"
                                       >
                                         <img src={BinIcon} alt="Excluir" />
                                       </button>
                                     </div>
-                                  ) : media.file.type.startsWith('video') ? (
+                                  ) : media.file.type.startsWith("video") ? (
                                     <div className="media-item">
-                                      <video src={media.preview} controls className="thumbnail" />
+                                      <video
+                                        src={media.preview}
+                                        controls
+                                        className="thumbnail"
+                                      />
                                       <button
                                         type="button"
-                                        onClick={() => handleMediaDelete(media.id)}
+                                        onClick={() =>
+                                          handleMediaDelete(media.id)
+                                        }
                                         className="delete-button"
                                       >
                                         <img src={BinIcon} alt="Excluir" />
                                       </button>
                                     </div>
                                   ) : (
-                                    <p>Arquivo não suportado: {media.file.name}</p>
+                                    <p>
+                                      Arquivo não suportado: {media.file.name}
+                                    </p>
                                   )}
                                 </>
                               ) : (
                                 <>
-                                  <img src={media.content} alt={`Media ${media.id}`} className="thumbnail" />
+                                  <img
+                                    src={media.content}
+                                    alt={`Media ${media.id}`}
+                                    className="thumbnail"
+                                  />
                                   <button
                                     type="button"
                                     onClick={() => handleMediaDelete(media.id)}
@@ -248,7 +283,9 @@ function EditModalPL({ Id, isOpen, onClose }) {
                           )}
                         </Draggable>
                       ))}
-                      {provided.placeholder && <div className="draggable-placeholder"></div>}
+                      {provided.placeholder && (
+                        <div className="draggable-placeholder"></div>
+                      )}
                     </div>
                   )}
                 </Droppable>
@@ -256,8 +293,12 @@ function EditModalPL({ Id, isOpen, onClose }) {
             </div>
           )}
           <div className="modal-buttons">
-            <button type="button" onClick={onClose}>Cancelar</button>
-            <button type="submit" disabled={loading}>{loading ? 'Atualizando...' : 'Atualizar'}</button>
+            <button type="button" onClick={onClose}>
+              Cancelar
+            </button>
+            <button type="submit" disabled={loading}>
+              {loading ? "Atualizando..." : "Atualizar"}
+            </button>
           </div>
         </form>
       </div>

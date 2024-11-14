@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import './Modal.css';
+import React, { useEffect, useState } from "react";
+import "./Modal.css";
 
 function AtribuirPL({ Id, isOpen, onClose }) {
   const [devices, setDevices] = useState([]);
-  const [playlistName, setPlaylistName] = useState('');
+  const [playlistName, setPlaylistName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedDevices, setSelectedDevices] = useState(new Set()); // Armazena os dispositivos selecionados
@@ -13,18 +13,22 @@ function AtribuirPL({ Id, isOpen, onClose }) {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('http://localhost:4000/devices'); // Endpoint para buscar dispositivos
+      const response = await fetch("https://api-p-i-4.onrender.com/devices"); // Endpoint para buscar dispositivos
       const data = await response.json();
       if (response.ok) {
         setDevices(data.data || []); // Ajuste conforme a estrutura de sua resposta
-        const preSelectedDevices = new Set(data.data.filter(device => device.idPlaylist === Id).map(device => device.id));
+        const preSelectedDevices = new Set(
+          data.data
+            .filter((device) => device.idPlaylist === Id)
+            .map((device) => device.id)
+        );
         setSelectedDevices(preSelectedDevices);
       } else {
-        throw new Error(data.message || 'Erro ao buscar dispositivos');
+        throw new Error(data.message || "Erro ao buscar dispositivos");
       }
     } catch (error) {
       setError(error.message);
-      console.error('Erro ao buscar dispositivos:', error);
+      console.error("Erro ao buscar dispositivos:", error);
     } finally {
       setLoading(false);
     }
@@ -32,15 +36,17 @@ function AtribuirPL({ Id, isOpen, onClose }) {
 
   const fetchPlaylistName = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/playlists/${Id}`); // Endpoint para buscar a playlist
+      const response = await fetch(
+        `https://api-p-i-4.onrender.com/playlists/${Id}`
+      ); // Endpoint para buscar a playlist
       const data = await response.json();
       if (response.ok) {
         setPlaylistName(data.data.nome); // Supondo que o nome da playlist está aqui
       } else {
-        throw new Error(data.message || 'Erro ao buscar nome da playlist');
+        throw new Error(data.message || "Erro ao buscar nome da playlist");
       }
     } catch (error) {
-      console.error('Erro ao buscar nome da playlist:', error);
+      console.error("Erro ao buscar nome da playlist:", error);
     }
   };
 
@@ -50,7 +56,7 @@ function AtribuirPL({ Id, isOpen, onClose }) {
       fetchPlaylistName(); // Busca nome da playlist ao abrir o modal
     } else {
       setDevices([]); // Reseta a lista de dispositivos ao fechar o modal
-      setPlaylistName(''); // Reseta o nome da playlist
+      setPlaylistName(""); // Reseta o nome da playlist
       setSelectedDevices(new Set()); // Limpa os dispositivos selecionados
       setDeselectedDevices(new Set());
     }
@@ -75,59 +81,68 @@ function AtribuirPL({ Id, isOpen, onClose }) {
     // Converte sets em arrays
     const devicesToAdd = Array.from(selectedDevices);
     const devicesToRemove = Array.from(deselectedDevices);
-  
+
     try {
       // Cria um array para armazenar as promessas de atualização
       const addPromises = devicesToAdd.map(async (deviceId) => {
-        const response = await fetch(`http://localhost:4000/devices/${deviceId}`, { // Ajuste o endpoint se necessário
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ playlist: Id }), // Envia o ID da playlist para cada dispositivo
-        });
-  
+        const response = await fetch(
+          `https://api-p-i-4.onrender.com/devices/${deviceId}`,
+          {
+            // Ajuste o endpoint se necessário
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ playlist: Id }), // Envia o ID da playlist para cada dispositivo
+          }
+        );
+
         // Verifica se a resposta está ok e trata os erros
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(`Erro ao atualizar dispositivo ${deviceId}: ${errorData.message}`);
+          throw new Error(
+            `Erro ao atualizar dispositivo ${deviceId}: ${errorData.message}`
+          );
         }
-  
+
         return response.json(); // Retorna a resposta em formato JSON se necessário
       });
-  
-      const removePromises = devicesToRemove.map(async (deviceId) => {
-        const response = await fetch(`http://localhost:4000/devices/${deviceId}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ playlist: null}),
-        });
 
-        if(!response.ok){
+      const removePromises = devicesToRemove.map(async (deviceId) => {
+        const response = await fetch(
+          `https://api-p-i-4.onrender.com/devices/${deviceId}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ playlist: null }),
+          }
+        );
+
+        if (!response.ok) {
           const errorData = await response.json();
-          throw new Error (`Erro ao atualizar dispositivo ${deviceId}: ${errorData.message}`);
+          throw new Error(
+            `Erro ao atualizar dispositivo ${deviceId}: ${errorData.message}`
+          );
         }
         return response.json();
       });
-      
+
       await Promise.all([...addPromises, ...removePromises]);
 
-      console.log('Dispositivo atualizados com sucesso');
+      console.log("Dispositivo atualizados com sucesso");
       onClose();
-    }
-    // Aguarda todas as promessas serem resolvidas
-    //await Promise.all(updatePromises);
-    
-    //console.log('Dispositivos atualizados com sucesso');
-    //onClose(); // Fecha o modal
-  
-    catch (error) {
-      console.error('Erro na requisição de atualização:', error);
+    } catch (error) {
+      // Aguarda todas as promessas serem resolvidas
+      //await Promise.all(updatePromises);
+
+      //console.log('Dispositivos atualizados com sucesso');
+      //onClose(); // Fecha o modal
+
+      console.error("Erro na requisição de atualização:", error);
     }
   };
-  
 
   return (
     <div className="modal">
@@ -135,7 +150,9 @@ function AtribuirPL({ Id, isOpen, onClose }) {
         <table className="service-table">
           <thead>
             <tr>
-              <th colSpan="2" style={{ textAlign: 'center' }}>{playlistName}</th>
+              <th colSpan="2" style={{ textAlign: "center" }}>
+                {playlistName}
+              </th>
             </tr>
             <tr>
               <th>Nome Dispositivo</th>
@@ -157,9 +174,13 @@ function AtribuirPL({ Id, isOpen, onClose }) {
             ))}
           </tbody>
         </table>
-        <div className="modal-buttons" style={{ marginTop: '15px' }}>
-            <button type="button" onClick={onClose}>Cancelar</button>
-            <button type="button" onClick={handleSubmit}>Concluir</button>
+        <div className="modal-buttons" style={{ marginTop: "15px" }}>
+          <button type="button" onClick={onClose}>
+            Cancelar
+          </button>
+          <button type="button" onClick={handleSubmit}>
+            Concluir
+          </button>
         </div>
       </div>
     </div>

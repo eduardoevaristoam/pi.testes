@@ -1,19 +1,27 @@
 import { useEffect, useReducer, useRef } from "react";
 import { useParams } from "react-router-dom";
+import Loader from "../assets/Loader";
 
 const initalState = {
   currentMedia: 0,
   media: [],
+  shownMedia: [],
   timeout: null,
   appStatus: "loading",
 };
 function reducer(state, action) {
   switch (action.type) {
-    case "addMedia":
+    case "cacheMedia":
       return {
         ...state,
         media: action.payload.Midia,
         timeout: action.payload.intervalo,
+        appStatus: action.appStatus,
+      };
+    case "addMedia":
+      return {
+        ...state,
+        shownMedia: [...action.payload],
         appStatus: "ready",
       };
     case "nextMedia":
@@ -40,11 +48,42 @@ function reducer(state, action) {
   }
 }
 
+const CACHE_NAME = "ArquivosPlaylist";
+async function downloadFile(file) {
+  //Abrindo/Criando cache
+  const cache = await caches.open(CACHE_NAME);
+
+  const cachedResponse = await cache.match(file.content);
+  if (cachedResponse) {
+    //Caso seja texto
+    if (file.mimetype.includes("text"))
+      return { ...file, data: await cachedResponse.text() };
+    //Caso não seja vídeo/imagem
+    const blob = await cachedResponse.blob();
+    return { ...file, data: URL.createObjectURL(blob) };
+  }
+
+  //Caso esse arquivo não esteja no cache, iremos cachea-lo
+  return fetch(file.content)
+    .then(async (res) => {
+      if (!res.ok)
+        throw new Error(`Erro ao baixar arquivo no link: ${file.content}`);
+      const resClone = res.clone();
+      if (file.mimetype.includes("text")) {
+        file.data = await res.text();
+      } else {
+        const blob = await res.blob();
+        file.data = URL.createObjectURL(blob);
+      }
+      //Colocando no cache um obj c o link e a resposta que chegou pelo fetch
+      await cache.put(file.content, resClone);
+    })
+    .catch((e) => console.error(e.message));
+}
+
 export default function SectionApPLinDV() {
-  const [{ currentMedia, media, timeout, appStatus }, dispatch] = useReducer(
-    reducer,
-    initalState
-  );
+  const [{ currentMedia, media, timeout, appStatus, shownMedia }, dispatch] =
+    useReducer(reducer, initalState);
   const video = useRef(null);
   const text = useRef(null);
   const updatedAt = useRef(null);
@@ -68,7 +107,11 @@ export default function SectionApPLinDV() {
         const data = await resPlaylist.json();
         if (updatedAt.current !== data.data.updatedAt) {
           updatedAt.current = data.data.updatedAt;
-          dispatch({ type: "addMedia", payload: data.data });
+          dispatch({
+            type: "cacheMedia",
+            payload: data.data,
+            appStatus: media.length === 0 ? "caching" : "ready",
+          });
         } else {
           return;
         }
@@ -139,32 +182,53 @@ export default function SectionApPLinDV() {
     }
   }, [currentMedia]);
 
+  useEffect(() => {
+    console.log("a");
+    async function loadMedia() {
+      let promisesArray = [];
+      for (const file of media) {
+        console.log(file);
+        const filePromise = downloadFile(file);
+        promisesArray.push(filePromise);
+      }
+      try {
+        const cachedMedia = await Promise.all(promisesArray);
+        console.log(cachedMedia);
+        dispatch({ type: "addMedia", payload: cachedMedia });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    if (!media.length) return;
+    loadMedia();
+  }, [media]);
+
   return (
     <div>
       {media.length === 0 && appStatus === "empty" && (
         <p>Não há uma playlist associada a este dispositivo</p>
       )}
 
-      {media.length === 0 ? (
-        <p>Carregando</p>
+      {media.length === 0 || appStatus === "caching" ? (
+        <Loader />
       ) : (
         <>
-          {media[currentMedia].mimetype.includes("image") && (
+          {shownMedia[currentMedia].mimetype.includes("image") && (
             <img
-              src={media[currentMedia].content}
+              src={shownMedia[currentMedia].data}
               style={{ width: "100%", height: "100vh" }}
               alt="media"
             />
           )}
-          {media[currentMedia].mimetype.includes("video") && (
+          {shownMedia[currentMedia].mimetype.includes("video") && (
             <video
               autoPlay
-              src={media[currentMedia].content}
+              src={shownMedia[currentMedia].data}
               style={{ width: "100%", height: "100vh" }}
               ref={video}
             />
           )}
-          {media[currentMedia].mimetype.includes("text") && (
+          {shownMedia[currentMedia].mimetype.includes("text") && (
             <div
               ref={text}
               style={{
@@ -175,7 +239,7 @@ export default function SectionApPLinDV() {
                 flexDirection: "column",
               }}
             >
-              {media.content}
+              {shownMedia.data}
             </div>
           )}
         </>
