@@ -1,6 +1,7 @@
 import { useEffect, useReducer, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../assets/Loader";
+import AvisoModal from "../modal/AvisoModal";
 
 const initalState = {
   currentMedia: 0,
@@ -77,6 +78,15 @@ async function downloadFile(file) {
       }
       //Colocando no cache um obj c o link e a resposta que chegou pelo fetch
       await cache.put(file.content, resClone);
+      const cachedResponse = await cache.match(file.content);
+      if (cachedResponse) {
+        //Caso seja texto
+        if (file.mimetype.includes("text"))
+          return { ...file, data: await cachedResponse.text() };
+        //Caso não seja vídeo/imagem
+        const blob = await cachedResponse.blob();
+        return { ...file, data: URL.createObjectURL(blob) };
+      }
     })
     .catch((e) => console.error(e.message));
 }
@@ -107,10 +117,11 @@ export default function SectionApPLinDV() {
         const data = await resPlaylist.json();
         if (updatedAt.current !== data.data.updatedAt) {
           updatedAt.current = data.data.updatedAt;
+          console.log(shownMedia);
           dispatch({
             type: "cacheMedia",
             payload: data.data,
-            appStatus: media.length === 0 ? "caching" : "ready",
+            appStatus: appStatus === "ready" ? "ready" : "caching",
           });
         } else {
           return;
@@ -138,7 +149,7 @@ export default function SectionApPLinDV() {
 
       //Só roda o interval se as mídias já tiverem sido carregadas, impedindo de setar um timer na primeira render
       if (appStatus === "ready") {
-        if (mimetype.includes("image")) {
+        if (mimetype.includes("image") || mimetype.includes("text")) {
           intervalId = setInterval(() => {
             dispatch({ type: "nextMedia" });
           }, timeout * 1000);
@@ -192,6 +203,7 @@ export default function SectionApPLinDV() {
         promisesArray.push(filePromise);
       }
       try {
+        console.log(promisesArray);
         const cachedMedia = await Promise.all(promisesArray);
         console.log(cachedMedia);
         dispatch({ type: "addMedia", payload: cachedMedia });
@@ -203,13 +215,20 @@ export default function SectionApPLinDV() {
     loadMedia();
   }, [media]);
 
+  if (media.length === 0 && appStatus === "empty")
+    return (
+      <AvisoModal>
+        <h3>Não há uma playlist associada, ou não há mídias.</h3>
+        <p>
+          Certifique-se de ter escolhido o dispositivo correto ou faça login
+          para adicionar mídias.
+        </p>
+      </AvisoModal>
+    );
+
   return (
     <div>
-      {media.length === 0 && appStatus === "empty" && (
-        <p>Não há uma playlist associada a este dispositivo</p>
-      )}
-
-      {media.length === 0 || appStatus === "caching" ? (
+      {shownMedia.length === 0 || appStatus === "caching" ? (
         <Loader />
       ) : (
         <>

@@ -24,7 +24,10 @@ function SectionCA() {
   if (isLoading) return <Loader />;
 
   return !isLogged ? (
-    <AvisoModal />
+    <AvisoModal>
+      <h3>Você não tem acesso a esta página!</h3>
+      <p>Por favor faça login ou direcione-se à exibição de mídias</p>
+    </AvisoModal>
   ) : (
     <div className="central-de-comando">
       <Header />

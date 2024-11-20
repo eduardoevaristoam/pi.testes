@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-function AvisoModal() {
+function AvisoModal({ children }) {
   const navigate = useNavigate();
   function handleRedirect(e, page) {
     e.preventDefault();
@@ -9,8 +9,7 @@ function AvisoModal() {
   return (
     <div className="modal">
       <div className="modal-content">
-        <h3>Você não tem acesso a esta página!</h3>
-        <p>Por favor faça login ou utilize direcione-se à exibição de mídias</p>
+        {children}
         <div className="modal-buttons">
           <button
             type="button"
