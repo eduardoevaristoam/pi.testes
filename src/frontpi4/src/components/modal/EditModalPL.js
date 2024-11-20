@@ -64,22 +64,22 @@ function EditModalPL({ Id, isOpen, onClose }) {
     setAllMedia([...allMedia, ...selectedFiles]); // Adiciona as novas mídias à lista de todas as mídias
   };
 
-  const handleMediaDelete = async (mediaId) => {
+  const handleMediaDelete = async (mediaUUID, mediaId) => {
     if (window.confirm("Você tem certeza que deseja excluir esta mídia?")) {
-      if (!mediaId.startsWith("new-")) {
+      if (!String(mediaId).startsWith("new-")) {
         // Somente apaga mídias do servidor
         try {
           const response = await fetch(
-            `https://api-p-i-4.onrender.com/media/${mediaId}`,
+            `https://api-p-i-4.onrender.com/media/${mediaUUID}`,
             {
               method: "DELETE",
             }
           );
           if (response.ok) {
             setExistingMedia(
-              existingMedia.filter((media) => media.id !== mediaId)
+              existingMedia.filter((media) => media.uuid !== mediaUUID)
             );
-            setAllMedia(allMedia.filter((media) => media.id !== mediaId));
+            setAllMedia(allMedia.filter((media) => media.uuid !== mediaUUID));
           } else {
             console.error("Erro ao excluir mídia:", await response.json());
           }
@@ -233,7 +233,10 @@ function EditModalPL({ Id, isOpen, onClose }) {
                                       <button
                                         type="button"
                                         onClick={() =>
-                                          handleMediaDelete(media.id)
+                                          handleMediaDelete(
+                                            media.uuid,
+                                            media.id
+                                          )
                                         }
                                         className="delete-button"
                                       >
@@ -250,7 +253,10 @@ function EditModalPL({ Id, isOpen, onClose }) {
                                       <button
                                         type="button"
                                         onClick={() =>
-                                          handleMediaDelete(media.id)
+                                          handleMediaDelete(
+                                            media.uuid,
+                                            media.id
+                                          )
                                         }
                                         className="delete-button"
                                       >
@@ -272,7 +278,9 @@ function EditModalPL({ Id, isOpen, onClose }) {
                                   />
                                   <button
                                     type="button"
-                                    onClick={() => handleMediaDelete(media.id)}
+                                    onClick={() =>
+                                      handleMediaDelete(media.uuid, media.id)
+                                    }
                                     className="delete-button"
                                   >
                                     <img src={BinIcon} alt="Excluir" />
