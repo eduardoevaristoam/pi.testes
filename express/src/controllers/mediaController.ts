@@ -170,7 +170,7 @@ async function readTextFromFile(
   res: Response,
   next: NextFunction
 ) {
-  if (req.file!.mimetype === "text/plain") {
+  if (req.file?.mimetype === "text/plain") {
     try {
       //fs cannot read from buffer
       //buffers have a built-in 'toString()' method
