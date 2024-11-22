@@ -64,15 +64,18 @@ function EditModalPL({ Id, isOpen, onClose }) {
     setAllMedia([...allMedia, ...selectedFiles]); // Adiciona as novas mídias à lista de todas as mídias
   };
 
-  const handleMediaDelete = async (mediaUUID, mediaId) => {
+  const handleMediaDelete = async (mediaUUID, mediaId, media) => {
     if (window.confirm("Você tem certeza que deseja excluir esta mídia?")) {
       if (!String(mediaId).startsWith("new-")) {
         // Somente apaga mídias do servidor
         try {
           const response = await fetch(
-            `https://api-p-i-4.onrender.com/media/${mediaUUID}`,
+            `http://localhost:4000/media/${mediaUUID}`,
             {
               method: "DELETE",
+              headers: {
+                istext: media.mimetype.includes("text") ? true : false,
+              },
             }
           );
           if (response.ok) {
@@ -235,7 +238,8 @@ function EditModalPL({ Id, isOpen, onClose }) {
                                         onClick={() =>
                                           handleMediaDelete(
                                             media.uuid,
-                                            media.id
+                                            media.id,
+                                            media
                                           )
                                         }
                                         className="delete-button"
@@ -255,7 +259,8 @@ function EditModalPL({ Id, isOpen, onClose }) {
                                         onClick={() =>
                                           handleMediaDelete(
                                             media.uuid,
-                                            media.id
+                                            media.id,
+                                            media
                                           )
                                         }
                                         className="delete-button"
@@ -279,7 +284,11 @@ function EditModalPL({ Id, isOpen, onClose }) {
                                   <button
                                     type="button"
                                     onClick={() =>
-                                      handleMediaDelete(media.uuid, media.id)
+                                      handleMediaDelete(
+                                        media.uuid,
+                                        media.id,
+                                        media
+                                      )
                                     }
                                     className="delete-button"
                                   >
