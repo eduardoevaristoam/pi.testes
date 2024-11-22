@@ -70,7 +70,7 @@ function EditModalPL({ Id, isOpen, onClose }) {
         // Somente apaga mídias do servidor
         try {
           const response = await fetch(
-            `http://localhost:4000/media/${mediaUUID}`,
+            `https://api-p-i-4.onrender.com/media/${mediaUUID}`,
             {
               method: "DELETE",
               headers: {
@@ -161,6 +161,7 @@ function EditModalPL({ Id, isOpen, onClose }) {
     });
   };
 
+  console.log(process.env);
   return (
     <div className="modal">
       <div className="modal-content">

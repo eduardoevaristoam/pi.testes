@@ -93,7 +93,7 @@ function AtribuirPL({ Id, isOpen, onClose }) {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ playlist: Id }), // Envia o ID da playlist para cada dispositivo
+            body: JSON.stringify({ idPlaylist: Id }), // Envia o ID da playlist para cada dispositivo
           }
         );
 
