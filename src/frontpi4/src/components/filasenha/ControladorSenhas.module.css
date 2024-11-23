@@ -1,0 +1,38 @@
+.responsiveButtons {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping for smaller screens */
+    gap: 1rem; /* Adds space between buttons */
+    justify-content: center; /* Centers the buttons horizontally */
+    align-items: center; /* Centers the buttons vertically */
+    padding: 2rem; /* Adds spacing around the button group */
+    min-height: 100vh;
+    background-color: #CAD2C5;
+  }
+  
+  .responsiveButtons button {
+    padding: 1rem 2rem; /* Adds padding inside buttons */
+    background-color: #52796F; /* Button background color */
+    color: #fff; /* Button text color */
+    border-radius: 20px; /* Rounded corners */
+    border-style: none; /* Removes border */
+    cursor: pointer; /* Shows pointer on hover */
+    font-weight: 700; /* Makes the text bold */
+    transition: all 0.2s ease-in-out; /* Smooth hover effect */
+  }
+  
+  .responsiveButtons button:hover {
+    background-color: #354f52; /* Changes background color on hover */
+  }
+  
+  @media (max-width: 768px) { /* Breakpoint for phones and smaller screens */
+    .responsiveButtons {
+      flex-direction: column; /* Stacks buttons in a column */
+      gap: 1rem; /* Space between stacked buttons */
+    }
+  
+    .responsiveButtons button {
+      width: 100%; /* Makes buttons full-width for better touch accessibility */
+      text-align: center; /* Centers text inside buttons */
+    }
+  }
+  

@@ -3,7 +3,7 @@ import Header from "../header/Header";
 import Section from "../section/Section";
 import PlaylistModal from "../modal/PlaylistModal";
 import DeviceModal from "../modal/DeviceModal";
-import FilaSenha from "../filasenha/FilaSenha";
+import FilaSenha from "../filasenha/FilaSenhas";
 import TabelaFS from "../tabela/TabelaFS";
 import TabelaPL from "../tabela/TabelaPL";
 import TabelaDV from "../tabela/TabelaDV";

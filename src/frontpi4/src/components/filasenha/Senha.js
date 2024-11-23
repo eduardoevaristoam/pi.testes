@@ -1,4 +1,6 @@
-// Componente de Senha
+import styles from "./FilaSenhas.module.css";
+
+//Componente de Senha
 export default function Senha({ senha, atual = false }) {
   return (
     senha && (

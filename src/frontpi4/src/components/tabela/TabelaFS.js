@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import './Tabela.css';
-import OpcoesMenu from './OpcoesMenu';
+import React, { useState } from "react";
+import "./Tabela.css";
+import OpcoesMenu from "./OpcoesMenu";
+import OpcoesMenuFilaSenha from "./OpcoesMenuFilaSenha";
 
 function TabelaFS({ title1, title2, children1 }) {
   const [showOptions, setShowOptions] = useState(false); // Estado para controlar a visibilidade do OpcoesMenu
@@ -24,12 +25,7 @@ function TabelaFS({ title1, title2, children1 }) {
             <td>
               <button onClick={handleToggleOptions}>...</button>
               {showOptions && (
-                <OpcoesMenu
-                  direction="atribuirfs"
-                  Id={1}
-                  name="Servico"
-                  onClose={() => setShowOptions(false)}
-                />
+                <OpcoesMenuFilaSenha onClose={() => setShowOptions(false)} />
               )}
             </td>
           </tr>

@@ -10,6 +10,10 @@ import SectionDevice from "./components/section/SectionDevice";
 import SectionApPLinDV from "./components/section/SectionApPLinDV";
 import { AuthProvider } from "./contexts/AuthContext";
 import { RightColumn } from "./components/filasenha/Columns";
+import { SenhasProvider } from "./contexts/SenhasContext";
+import { WebSocketProvider } from "./contexts/WebSocketContext";
+import FilaSenhas from "./components/filasenha/FilaSenhas";
+import ControladorSenhas from "./components/filasenha/ControladorSenhas";
 
 // if ("serviceWorker" in navigator) {
 //   window.addEventListener("load", () => {
@@ -29,20 +33,29 @@ import { RightColumn } from "./components/filasenha/Columns";
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route index element={<SectionLogin />} />
-          <Route path="/login" element={<SectionLogin />} />
-          <Route path="/central-de-comando" element={<SectionCA />} />
-          <Route path="/buscar-dispositivo" element={<SectionDevice />} />
-          <Route
-            path="/apresentacao-dispositivo/:dispositivo"
-            element={<SectionApPLinDV />}
-          />
-        </Routes>
-      </Router>
-    </AuthProvider>
+    <WebSocketProvider>
+      <SenhasProvider>
+        <AuthProvider>
+          <Router>
+            <Routes>
+              <Route index element={<SectionLogin />} />
+              <Route path="/login" element={<SectionLogin />} />
+              <Route path="/central-de-comando" element={<SectionCA />} />
+              <Route path="/buscar-dispositivo" element={<SectionDevice />} />
+              <Route
+                path="/apresentacao-dispositivo/:dispositivo"
+                element={<SectionApPLinDV />}
+              />
+              <Route path="/fila-senha/apresentacao" element={<FilaSenhas />} />
+              <Route
+                path="/fila-senha/controle"
+                element={<ControladorSenhas />}
+              />
+            </Routes>
+          </Router>
+        </AuthProvider>
+      </SenhasProvider>
+    </WebSocketProvider>
   );
 }
 
