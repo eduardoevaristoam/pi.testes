@@ -1,0 +1,90 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #CAD2C5;
+  margin: 0;
+  padding: 0;
+}
+
+.central-de-comando {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Header Styles */
+.header {
+  background-color: #2F3E46;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 44px;
+}
+
+/* User Icon in Header */
+.user-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  right: 1rem;
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Section Styles */
+.section {
+  margin-bottom: 2rem;
+}
+
+/* Section Header with Title and Button */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* Ensures space between the title and button */
+}
+
+.section h2 {
+  font-size: 20px;
+  color: #354F52;
+  margin: 0; /* Removes extra margin around the title */
+}
+
+.add-button {
+  background-color: #84A98C;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.add-button:hover {
+  background-color: #52796F;
+}
+
+/* Content and List Areas */
+.input-area, .list-area {
+  background-color: white;
+  border: 1px solid #52796F;
+  border-radius: 5px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.list-area {
+  height: 150px;
+  overflow-y: auto;
+}

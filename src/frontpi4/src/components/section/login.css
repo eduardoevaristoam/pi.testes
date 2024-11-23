@@ -1,0 +1,90 @@
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    z-index: 200;
+  }
+  
+  .modal-content {
+    background: linear-gradient(120deg, #84A98C, #CAD2C5, #52796F, #232f35); /* Gradiente do fundo */
+    background-size: 400% 400%;
+    animation: gradientBackgroundSection 10s ease infinite; /* Animação do gradiente */
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    color: white;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .modal-content h3 {
+    font-size: 24px;
+    margin-bottom: 1rem;
+  }
+  
+  .modal-content form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinha os elementos à esquerda */
+  }
+  
+  .modal-content label {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Garante que os elementos ocupem a largura completa */
+    margin: 0.5rem 0;
+    font-size: 14px;
+    color: #FFFFFF;
+  }
+  
+  .modal-content input {
+    width: 100%; /* Garante que o campo preencha a largura do contêiner */
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border-radius: 5px;
+    border: 1px solid #52796F;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .modal-content input:focus {
+    outline: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .modal-content button {
+    background-color: #84A98C;
+    color: white;
+    border: none;
+    padding: 0.7rem;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 1rem;
+  }
+  
+  .modal-content button:hover {
+    background-color: #52796F;
+    transform: scale(1.05);
+  }
+  
+  .modal-content p {
+    color: #FF5E5E; /* Cor de erro para mensagens de erro */
+    font-size: 14px;
+    margin-top: 0.5rem;
+  }
+  
+  @keyframes gradientBackgroundSection {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  

@@ -1,9 +1,10 @@
-/* Global Styles */
+/* Estilos Globais */
 body {
   font-family: Arial, sans-serif;
-  background-color: #CAD2C5;
+  background: linear-gradient(120deg, #CAD2C5, #52796F); /* Gradiente inicial */
   margin: 0;
   padding: 0;
+  transition: background 0.3s ease; /* Suaviza a transição do gradiente de fundo */
 }
 
 .central-de-comando {
@@ -12,7 +13,7 @@ body {
   height: 100vh;
 }
 
-/* Header Styles */
+/* Estilos do Cabeçalho */
 .header {
   background-color: #2F3E46;
   color: white;
@@ -21,6 +22,7 @@ body {
   align-items: center;
   padding: 2rem;
   position: relative;
+  transition: background-color 0.3s ease; /* Suaviza a transição de cor do cabeçalho */
 }
 
 .header h1 {
@@ -28,63 +30,107 @@ body {
   font-size: 44px;
 }
 
-/* User Icon in Header */
+/* Ícone do Usuário no Cabeçalho */
 .user-icon {
-  width: 40px;
+  width: 500px;
   height: 40px;
   border-radius: 50%;
   position: absolute;
   right: 1rem;
 }
 
-/* Main Content Area */
+/* Área de Conteúdo Principal */
 .main-content {
   flex: 1;
   padding: 2rem;
 }
 
-/* Section Styles */
+/* Estilos da Seção */
 .section {
   margin-bottom: 2rem;
 }
 
-/* Section Header with Title and Button */
+/* Cabeçalho da Seção com Título e Botão */
 .section-header {
   display: flex;
+  flex-direction: column; /* Mudado para coluna, para o título ficar acima do botão */
   align-items: center;
-  gap: 0.5rem; /* Ensures space between the title and button */
+  gap: 0.5rem; /* Garante o espaçamento entre o título e o botão */
+  background: linear-gradient(120deg, #84A98C, #CAD2C5, #52796F, #232f35); /* Gradiente de fundo */
+  background-size: 400% 400%;
+  animation: gradientBackgroundSection 10s ease infinite; /* Animação do gradiente */
+  padding: 1rem;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Animação do Gradiente para o Cabeçalho da Seção */
+@keyframes gradientBackgroundSection {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .section h2 {
-  font-size: 20px;
-  color: #354F52;
-  margin: 0; /* Removes extra margin around the title */
+  font-size: 22px;
+  color: #FFFFFF;
+  font-weight: bold;
+  margin: 0;
 }
 
+/* Estilos do Botão */
 .add-button {
   background-color: #84A98C;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
-  cursor: pointer;
   font-size: 16px;
   border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Suaviza a transição de cor e efeito de escala */
 }
 
 .add-button:hover {
   background-color: #52796F;
+  transform: scale(1.05); /* Aumenta o botão ao passar o mouse */
 }
 
-/* Content and List Areas */
+/* Áreas de Conteúdo e Lista */
 .input-area, .list-area {
   background-color: white;
   border: 1px solid #52796F;
   border-radius: 5px;
   padding: 1rem;
   margin-top: 1rem;
+  transition: box-shadow 0.3s ease; /* Suaviza a transição da sombra */
+}
+
+.input-area:hover, .list-area:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adiciona sombra ao passar o mouse */
 }
 
 .list-area {
   height: 150px;
   overflow-y: auto;
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 36px; /* Reduz o tamanho do título em telas menores */
+  }
+  
+  .section h2 {
+    font-size: 18px; /* Ajusta o tamanho do subtítulo */
+  }
+
+  .add-button {
+    font-size: 14px; /* Ajusta o tamanho do botão */
+    padding: 0.5rem; /* Ajusta o preenchimento do botão */
+  }
+
+  .main-content {
+    padding: 1rem; /* Reduz o preenchimento do conteúdo principal */
+  }
 }
