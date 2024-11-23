@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./device.css";
+//import "./device.css";
 
 function SectionDevice() {
   const [dispositivo, setDispositivo] = useState("");

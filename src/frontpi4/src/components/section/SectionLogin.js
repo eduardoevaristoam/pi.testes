@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-//import styles from "../../App.css";
-import "./login.css";
-//import Modal from "../modal/Modal.css";
+import styles from "../../App.css";
+//import "./login.css";
+import Modal from "../modal/Modal.css";
 import { useLogin } from "../../contexts/AuthContext";
 import Loader from "../assets/Loader";
 

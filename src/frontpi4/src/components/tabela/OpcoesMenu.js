@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-//import "../modal/Modal.css";
-import "./OpcoesMenu.css";
+import "../modal/Modal.css";
 import EditModalDV from "../modal/EditModalDV";
 import EditModalPL from "../modal/EditModalPL";
 import AtribuirDV from "../modal/AtribuirDV";

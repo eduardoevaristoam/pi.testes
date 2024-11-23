@@ -1,51 +1,33 @@
-/* Estilo da Header com gradiente animado */
 .header {
-  background: linear-gradient(120deg, #84A98C, #CAD2C5, #52796F, #2F3E46);
-  background-size: 400% 400%;
-  animation: gradientBackgroundHeader 10s ease infinite;
+  background-color: #2F3E46; /* Mantém a cor sólida */
   color: white;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.2rem;
+  justify-content: space-between; /* Alinha os elementos com espaço entre eles */
+  align-items: center; /* Centraliza verticalmente */
+  padding: 1.2rem; /* Ajuste do padding */
   position: relative;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  font-family: Arial, sans-serif;
-}
-
-/* Animação do gradiente na Header */
-@keyframes gradientBackgroundHeader {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Linha na parte inferior */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Adiciona sombra */
+  font-family: Arial, sans-serif; /* Define a fonte */
 }
 
 .header h1 {
   margin: 0;
-  font-size: 26px;
+  font-size: 26px; /* Tamanho ajustado */
   font-weight: bold;
   text-align: center;
-  flex-grow: 1;
+  flex-grow: 1; /* Permite que o título ocupe o espaço restante */
 }
 
-/* Estilo do ícone de usuário com efeito de hover */
-/*user-icon {
-  width: 5px;
-  height: 10px;
+.user-icon {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border: 2px solid #CAD2C5;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-right: 1rem; /* Espaço entre o ícone e os outros elementos */
+  position: relative;
   cursor: pointer;
-  margin-right: 1rem;
 }
 
-.user-icon:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-}*/
-
-/* Estilo do botão de logout */
 .header button {
   background-color: #52796F;
   color: white;
@@ -55,7 +37,7 @@
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  margin-left: 1rem;
+  margin-left: 1rem; /* Espaço entre o botão e o restante */
 }
 
 .header button:hover {

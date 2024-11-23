@@ -1,138 +1,81 @@
-/* Estilo do fundo da modal com gradiente animado */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(120deg, #84A98C, #CAD2C5, #52796F, #2F3E46);
-  background-size: 400% 400%;
-  animation: gradientBackground 8s ease infinite;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  box-sizing: border-box;
-  z-index: 1000;
 }
-
-/* Animação do gradiente */
-@keyframes gradientBackground {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Estilo da área de conteúdo da modal */
+  
 .modal-content {
-  background-color: rgba(255, 255, 255, 0.9); /* Fundo semi-transparente */
+  background-color: #CAD2C5;
   font-family: Arial, sans-serif;
   padding: 2rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 500px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  border: 1px solid #52796F; /* Borda para contraste */
+  border-radius: 10px;
+  width: 400px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
-
+  
 .modal-content h3 {
   margin-top: 0;
-  text-align: center;
-  color: #2F3E46;
 }
 
 .modal-content label {
   font-family: Arial, sans-serif;
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .modal-content input[type="text"],
 .modal-content input[type="number"],
-.modal-content input[type="file"] {
+.modal-content input[type="file"],
+.modal-content input[type="password"]
+ {
   width: 100%;
-  padding: 0.6rem;
-  margin: 0.5rem 0;
-  border: 1px solid #A9B7BD;
-  border-radius: 6px;
-  box-sizing: border-box;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-/* Estilo dos botões na modal */
 .modal-buttons {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
-  margin-top: 1rem;
 }
 
 .modal-buttons button {
   background-color: #84A98C;
-  color: #fff;
+  color: white;
   border: none;
-  padding: 0.5rem 1.2rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  border-radius: 6px;
-  transition: background-color 0.3s ease;
+  border-radius: 5px;
 }
 
 .modal-buttons button:hover {
   background-color: #52796F;
 }
 
-.modal-buttons button:active {
-  background-color: #2F3E46;
-}
-
-.modal-content ul {
+.modal-content ul{
   list-style-type: none;
   padding: 0;
 }
 
-.modal-content li {
+.modal-content li{
   margin-bottom: 1rem;
 }
 
-/* Estilo da tabela */
-.service-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.service-table th, .service-table td {
-  padding: 8px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-.service-table th {
-  color: #52796F;
-  background-color: #F0F4F8;
-}
-
-/* Responsividade para a tabela em dispositivos menores */
-@media (max-width: 600px) {
-  .modal-content {
-    padding: 1.5rem;
-    width: 100%;
-  }
-
-  .service-table th, .service-table td {
-    font-size: 0.9rem;
-    padding: 6px;
-  }
-}
-
-/* Outras estilizações para pré-visualização de mídia */
 .media-preview-container.scrollable {
-  max-height: 300px;
-  overflow-y: auto;
-  padding-right: 10px;
+  max-height: 300px; /* Defina a altura máxima da área de exibição */
+  overflow-y: auto; /* Adiciona a barra de rolagem vertical */
+  padding-right: 10px; /* Espaçamento para a barra de rolagem */
 }
 
 .media-thumbnails {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  grid-template-columns: 1fr;
   gap: 10px;
 }
 
@@ -146,7 +89,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px;
 }
 
 .dragable-placeholder {
@@ -154,25 +96,24 @@
   width: 100px;
   height: 100px;
   margin: 10px;
-  border-radius: 6px;
 }
 
 .delete-button {
   position: absolute;
   top: 5px;
   right: 5px;
-  background: rgba(0, 0, 0, 0.5);
+  background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 50%;
+  padding: 0;
 }
 
-.delete-button img {
-  width: 18px;
-  height: 18px;
+.delete-button img{
+  width: 20px;
+  height: 20px;
 }
 
+/* Container que permite a rolagem */
 .scrollable {
   max-height: 300px;
   overflow-y: auto;
@@ -180,7 +121,21 @@
 
 /* Estilização da mídia recém-adicionada */
 .new-media {
-  border: 4px solid #2F3E46;
+  border: 4px solid #2F3E46; /* Cor diferenciada para as mídias recém-adicionadas */
+  background-color: #52796F; /* Fundo leve para diferenciar */
+}
+form button {
   background-color: #52796F;
-  border-radius: 6px;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  /*margin-left: 1rem; /* Espaço entre o botão e o restante */
+}
+form button:hover {
+  background-color: #2F3E46;
+  transform: scale(1.05);
 }
