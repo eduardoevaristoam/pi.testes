@@ -243,7 +243,7 @@ export default function SectionApPLinDV() {
             <video
               autoPlay
               src={shownMedia[currentMedia].data}
-              style={{ width: "100%", height: "100vh" }}
+              style={{ width: "100%" }}
               ref={video}
             />
           )}

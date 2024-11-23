@@ -161,7 +161,6 @@ function EditModalPL({ Id, isOpen, onClose }) {
     });
   };
 
-  console.log(process.env);
   return (
     <div className="modal">
       <div className="modal-content">

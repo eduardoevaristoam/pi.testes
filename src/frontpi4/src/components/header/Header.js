@@ -29,7 +29,7 @@ function Header() {
       <h1>Central de Comando</h1>
       <img src={userIcon} alt="Ícone do usuário" className="user-icon" />
       <button onClick={handleLogOut}>Deslogar</button>
-      <button onClick={() => navigate("/buscar-dispositivo")}>Exibição</button>
+      {/*<button onClick={() => navigate("/buscar-dispositivo")}>Exibição</button>*/}
     </header>
   );
 }
