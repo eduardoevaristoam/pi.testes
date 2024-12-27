@@ -2,6 +2,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 
 .wrapper {
@@ -23,6 +26,24 @@
   border-radius: 20px;
   width: 50%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  animation-name: bubble;
+  animation-duration: 1s;
+}
+@keyframes bubble {
+  0% {
+    background-color: #354f52;
+    transform: scale(100%);
+  }
+  50% {
+    background-color: red;
+    transform: scale(105%);
+    outline: 10px solid red;
+    outline-offset: 15px;
+  }
+  100% {
+    background-color: #354f52;
+    transform: scale(100%);
+  }
 }
 .wrapper .right__column .senha__atual h3 {
   font-size: 3rem;
@@ -54,22 +75,246 @@
   font-size: 3rem;
 }
 
+.controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 2rem;
+}
+.controls button {
+  padding: 1rem;
+  background-color: #52796F;
+  color: #fff;
+  border-radius: 20px;
+  border-style: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: 700;
+}
+.controls button:hover {
+  background-color: #354f52;
+}
+
+.selected {
+  transition: all 0.2s ease-in-out;
+  transform: scale(90%);
+  opacity: 0.5;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #52796F;
+  max-width: 80vw;
+  padding: 2rem;
+  border-radius: 20px;
+  min-height: 100vh;
+  gap: 1rem;
+}
+.container button {
+  padding: 1rem;
+  background-color: #354f52;
+  color: #fff;
+  border-radius: 20px;
+  border-style: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: 700;
+}
+.container button:hover {
+  background-color: #3e5c54;
+}
+.container .media__visualizer {
+  background-color: #354f52;
+  padding: 1.5rem;
+  border-radius: 20px;
+  width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 1rem;
+  overflow-y: auto;
+  max-height: 90vh;
+  min-height: 50vh;
+}
+.container .media__visualizer .media {
+  transition: all 0.2s ease-in-out;
+  margin-block: auto;
+}
+.container .media__visualizer .media img, .container .media__visualizer .media video {
+  object-fit: cover;
+  border-radius: 20px;
+}
+.container .media__visualizer .media:hover {
+  opacity: 0.5;
+}
+
+.media-form {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+.media-form .files-input {
+  display: none;
+}
+.media-form button, .media-form input {
+  padding: 1rem;
+  background-color: #52796F;
+  color: #fff;
+  border-radius: 20px;
+  border-style: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  font-weight: 700;
+}
+.media-form button:hover, .media-form input:hover {
+  background-color: #354f52;
+}
+
+.text__input__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+.text__input__container .text__input {
+  border-radius: 20px;
+  border-style: none;
+  background-color: #52796F;
+  padding: 1rem;
+  transition: all 0.2s ease-in-out;
+  color: #fff;
+  font-weight: 700;
+}
+.text__input__container .text__input:hover {
+  background-color: #354f52;
+}
+
 /*# sourceMappingURL=index.css.map */
 
 
 
-.IconeLua{
-  background-color: #2F3E46;
-  background-image: url("/src/img/iconLua.png");
-  display: inline-block; /* Faz o link se ajustar ao tamanho da imagem */
-  position: relative; /* Necessário se você quiser adicionar conteúdo sobreposto dentro do link */
-  background-size: cover; /* Faz a imagem de fundo cobrir toda a área do link */
-  background-position: center; /* Centraliza a imagem de fundo */
-  text-decoration: none; /* Remove o sublinhado padrão do link */
+
+body {
+  background-color: #CAD2C5;
+  font-family: 'Montserrat', sans-serif;
+  color: #2F3E46;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  transition: background-color 0.5s, color 0.5s;
 }
 
-.image-link img {
-  display: block; /* Remove qualquer espaço em branco ao redor da imagem */
-  max-width: 100%; /* Garante que a imagem não ultrapasse o tamanho do link */
-  height: auto; /* Mantém a proporção da imagem */
+.container {
+  text-align: center;
+}
+
+.login-box {
+  background-color: #2F3E46;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.login-box h2 {
+  color: #CAD2C5;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.login-box input[type="email"],
+.login-box input[type="password"],
+.login-box input[type="text"]{
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 1px solid #52796F;
+  background-color: #CAD2C5;
+  color: #2F3E46;
+}
+
+.login-box input[type="submit"] {
+  background-color: #52796F;
+  color: #CAD2C5;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.login-box input[type="submit"]:hover {
+  background-color: #84A98C;
+}
+
+.login-box .link {
+  display: block;
+  margin-top: 10px;
+  color: #84A98C;
+  text-decoration: none;
+}
+
+.toggle-password {
+  position: relative;
+}
+
+.toggle-password i {
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  cursor: pointer;
+}
+
+.mode-toggle {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  width: 10%;
+  background-color: #2F3E46;
+}
+
+.mode-toggle img {
+  width: 30px;
+}
+
+.light-mode {
+  background-color: #CAD2C5;
+  color: #2F3E46;
+}
+
+.dark-mode {
+  background-color: #2F3E46;
+  color: #CAD2C5;
+}
+
+.botaoTogglePasword{
+  background-image: url();
+}
+
+
+
+
+
+
+
+.olho {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.olho:: {
+  content: "\f06e"; /* Ícone de olho do Font Awesome */
+  font-family: "Font Awesome 5 Free";
 }

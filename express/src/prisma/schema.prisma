@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Midia {
+  id         Int      @id @default(autoincrement())
+  uuid       String   @unique
+  content    String
+  mimetype   String
+  //Definindo foreign key id, de Playlist
+  idPlaylist Int
+  Playlist   Playlist @relation(fields: [idPlaylist], references: [id], onDelete: Cascade)
+}
+
+model Playlist {
+  id          Int           @id @default(autoincrement())
+  nome        String        @unique
+  intervalo   Int
+  Midia       Midia[]
+  Dispositivo Dispositivo[]
+}
+
+model Dispositivo {
+  id         Int       @id @default(autoincrement())
+  nome       String
+  //Para tornar a relação aqui opcional, é necessário usar ? em pelo menos o campo definidor da relação
+  idPlaylist Int?
+  Playlist   Playlist? @relation(fields: [idPlaylist], references: [id])
+}

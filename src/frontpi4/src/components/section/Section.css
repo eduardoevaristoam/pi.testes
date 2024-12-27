@@ -1,0 +1,37 @@
+.section {
+    margin-bottom: 2rem;
+  }
+  
+  .section-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .section h2 {
+    font-size: 20px;
+    color: #354F52;
+  }
+  
+  .add-button {
+    background-color: #84A98C;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-left: 1rem;
+  }
+  
+  .add-button:hover {
+    background-color: #52796F;
+  }
+  
+  .content-area {
+    background-color: white;
+    border: 1px solid #52796F;
+    border-radius: 5px;
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+  

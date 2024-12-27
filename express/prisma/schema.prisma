@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Midia {
+  id         Int      @id @default(autoincrement())
+  uuid       String   @unique
+  content    String
+  mimetype   String
+  idPlaylist Int
+  Playlist   Playlist @relation(fields: [idPlaylist], references: [id], onDelete: Cascade)
+}
+
+model Playlist {
+  id          Int           @id @default(autoincrement())
+  nome        String        @unique
+  intervalo   Int
+  Dispositivo Dispositivo[]
+  Midia       Midia[]
+}
+
+model Dispositivo {
+  id         Int       @id @default(autoincrement())
+  nome       String
+  idPlaylist Int?
+  Playlist   Playlist? @relation(fields: [idPlaylist], references: [id])
+}

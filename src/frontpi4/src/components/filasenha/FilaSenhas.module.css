@@ -1,0 +1,80 @@
+/* Scoped wrapper styles for FilaSenhas */
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Global styles for reusable components */
+:global(.right__column) {
+  background-color: #cad2c5;
+  min-width: 70vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:global(.left__column) {
+  background-color: #52796f;
+  min-width: 30vw;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  justify-content: center;
+  align-items: center;
+}
+
+:global(.senha) {
+  color: #fff;
+  text-align: center;
+  background-color: #354f52;
+  padding: 2rem !important;
+  border-radius: 20px;
+  width: 350px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+:global(.senha h3) {
+  font-size: 1.5rem;
+}
+
+:global(.senha h1) {
+  font-size: 3rem;
+}
+
+/* Styles unique to FilaSenhas */
+:global(.senha__atual) {
+  color: #fff;
+  text-align: center;
+  background-color: #354f52;
+  padding: 2rem !important;
+  border-radius: 20px;
+  width: 70%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  animation-name: bubble;
+  animation-duration: 1s;
+}
+
+@keyframes bubble {
+  0% {
+    background-color: #354f52;
+    transform: scale(100%);
+  }
+  50% {
+    background-color: red;
+    transform: scale(105%);
+    outline: 10px solid red;
+    outline-offset: 15px;
+  }
+  100% {
+    background-color: #354f52;
+    transform: scale(100%);
+  }
+}
+
+/* Typography scoped within this module */
+:global(.senha__atual h3) {
+  font-size: 3rem;
+}
+
+:global(.senha__atual h1) {
+  font-size: 7rem;
+}

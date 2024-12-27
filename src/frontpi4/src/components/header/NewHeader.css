@@ -1,0 +1,64 @@
+/* Estilo da Header com gradiente animado */
+.header {
+  background: linear-gradient(120deg, #84A98C, #CAD2C5, #52796F, #2F3E46);
+  background-size: 400% 400%;
+  animation: gradientBackgroundHeader 10s ease infinite;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem;
+  position: relative;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+}
+
+/* Animação do gradiente na Header */
+@keyframes gradientBackgroundHeader {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  flex-grow: 1;
+}
+
+/* Estilo do ícone de usuário com efeito de hover */
+/*user-icon {
+  width: 5px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #CAD2C5;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  margin-right: 1rem;
+}
+
+.user-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}*/
+
+/* Estilo do botão de logout */
+.header button {
+  background-color: #52796F;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-left: 1rem;
+}
+
+.header button:hover {
+  background-color: #2F3E46;
+  transform: scale(1.05);
+}
